@@ -2,7 +2,7 @@ import { Router } from 'express';
 import isAuth from '../middlewares/isAuth';
 import attachUser from '../middlewares/attachUser';
 import roleCheck from '../middlewares/roleCheck';
-import AuthService from '../services/AuthService';
+import authService from '../services/authService';
 import models from '../models';
 
 const router = Router();
@@ -26,7 +26,7 @@ router.post(
         email: userRecord.email,
         username: userRecord.username,
       },
-      jwt: AuthService.generateToken(userRecord),
+      jwt: authService.generateToken(userRecord),
     });
   }
 );
