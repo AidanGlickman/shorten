@@ -6,7 +6,7 @@ import validator from 'validator';
 
 function generateJWT(user) {
   const data = {
-    uuid: user.uuid,
+    id: user.id,
     username: user.username,
     email: user.email,
   };
@@ -18,6 +18,9 @@ function generateJWT(user) {
 }
 
 const authService = {
+  generateToken: (user) => {
+    return generateJWT(user);
+  },
   register: async (email, password, username) => {
     if (!validator.isEmail(email)) {
       throw new Error('Invalid email');
@@ -102,6 +105,9 @@ const authService = {
 
   login: async (username, password) => {
     const userRecord = await models.User.findByLogin(username);
+    if (userRecord.role === -1) {
+      throw new Error('You must verify your account before logging in.');
+    }
     if (!userRecord) {
       throw new Error('User not found');
     } else {

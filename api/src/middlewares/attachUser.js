@@ -2,8 +2,11 @@ import models from '../models';
 
 export default async (req, res, next) => {
   const decodedTokenData = req.tokenData;
-  const userRecord = await models.User.findOne({ uuid: decodedTokenData.uuid });
-
+  console.log(decodedTokenData.id);
+  const userRecord = await models.User.findOne({
+    where: { id: decodedTokenData.id },
+  });
+  console.log(userRecord);
   req.currentUser = userRecord;
 
   if (!userRecord) {
