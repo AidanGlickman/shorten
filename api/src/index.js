@@ -22,7 +22,8 @@ app.use(
 );
 
 sequelize.sync().then(() => {
-  app.listen(process.env.PORT || 3000, () =>
-    console.log('Example app listening on port 3000!')
+  const listPort = process.env.PORT || 3000;
+  app.listen(listPort, () =>
+    console.log('Siren Paw listening on port' + listPort + '!')
   );
 });
