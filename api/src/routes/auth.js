@@ -1,10 +1,6 @@
 import { Router } from 'express';
-import isAuth from '../middlewares/isAuth';
-import attachUser from '../middlewares/attachUser';
-import roleCheck from '../middlewares/roleCheck';
 import authService from '../services/authService';
 import Sequelize from 'sequelize';
-import models from '../models';
 
 const router = Router();
 
