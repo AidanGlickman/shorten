@@ -20,10 +20,11 @@ app.use(
   middlewares.roleCheck(2),
   routes.admin
 );
+app.use('/workspace', routes.workspace);
 
 sequelize.sync().then(() => {
   const listPort = process.env.PORT || 3000;
   app.listen(listPort, () =>
-    console.log('Siren Paw listening on port' + listPort + '!')
+    console.log('Siren Paw listening on port ' + listPort + '!')
   );
 });
