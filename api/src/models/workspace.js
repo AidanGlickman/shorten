@@ -24,14 +24,8 @@ const workspace = (sequelize, DataTypes) => {
 
   Workspace.associate = (models) => {
     Workspace.belongsTo(models.User);
-  };
-
-  Workspace.associate = (models) => {
-    Workspace.hasMany(models.Link);
-  };
-
-  Workspace.associate = (models) => {
-    Workspace.hasMany(models.Analytic);
+    Workspace.hasMany(models.Link, { onDelete: 'CASCADE' });
+    Workspace.hasMany(models.Analytic, { onDelete: 'CASCADE' });
   };
 
   return Workspace;
