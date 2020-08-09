@@ -105,11 +105,10 @@ const authService = {
 
   login: async (username, password) => {
     const userRecord = await models.User.findByLogin(username);
-    if (userRecord.role === -1) {
-      throw new Error('You must verify your account before logging in.');
-    }
     if (!userRecord) {
       throw new Error('User not found');
+    } else if (userRecord.role === -1) {
+      throw new Error('You must verify your account before logging in.');
     } else {
       const correctPass = await argon2.verify(userRecord.password, password);
       if (!correctPass) {
