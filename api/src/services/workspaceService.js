@@ -1,16 +1,23 @@
 import models from '../models';
+import * as argon2 from 'argon2';
 
 const workspaceService = {
   createWorkspace: async (user, workspaceInfo) => {
     const hashed = await argon2.hash(workspaceInfo.password);
-    return await models.Workspace.create({
+    const workspace = await models.Workspace.create({
+      userId: user.id,
+      code: workspaceInfo.code,
       title: workspaceInfo.title,
       description: workspaceInfo.description,
-      code: workspaceInfo.code,
       private: workspaceInfo.private,
       password: hashed,
-      userId: user.id,
     });
+
+    return {
+      workspace: {
+        code: workspace.code,
+      },
+    };
   },
   getWorkspace: async (workspaceCode) => {
     return await models.Workspace.findOne({ where: { code: workspaceCode } });
@@ -21,10 +28,21 @@ const workspaceService = {
     });
   },
   editWorkspace: async (workspaceCode, newWorkspaceInfo) => {
-    const workspace = await this.getWorkspace(workspaceCode);
+    const workspace = await models.Workspace.findOne({
+      where: { code: workspaceCode },
+    });
     return workspace.update({
       code: newWorkspaceInfo.code,
+      title: newWorkspaceInfo.title,
+      description: newWorkspaceInfo.description,
     });
+  },
+  doesWorkspaceExist: async (workspaceCode) => {
+    const workspace = await models.Workspace.findOne({
+      where: { code: workspaceCode },
+    });
+    console.log(workspace);
+    return workspace !== null;
   },
 };
 
