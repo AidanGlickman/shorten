@@ -14,10 +14,10 @@ export default async (req, res, next) => {
   const signature = process.env.JWT_SECRET;
   let tokenData;
   jwt.verify(token, signature, function (err, decoded) {
-    tokenData = decoded.data;
     if (err) {
       return res.status(401).send('Invalid Token');
     } else {
+      tokenData = decoded.data;
       req.tokenData = tokenData;
       return next();
     }
