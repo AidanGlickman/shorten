@@ -135,6 +135,8 @@ router.post(
           code: req.body.code,
           title: req.body.title,
           description: req.body.description,
+          private: req.body.private,
+          password: req.body.password,
         };
         result = await workspaceService.editWorkspace(
           workspace.code,

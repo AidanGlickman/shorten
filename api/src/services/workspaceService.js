@@ -35,6 +35,8 @@ const workspaceService = {
       code: newWorkspaceInfo.code,
       title: newWorkspaceInfo.title,
       description: newWorkspaceInfo.description,
+      private: newWorkspaceInfo.private,
+      password: await argon2.hash(newWorkspaceInfo.password),
     });
   },
   doesWorkspaceExist: async (workspaceCode) => {
