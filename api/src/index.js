@@ -22,6 +22,13 @@ app.use(
 );
 app.use('/workspace', routes.workspace);
 app.use('/link/:workspaceCode', routes.link);
+app.use(
+  '/user',
+  middlewares.isAuth,
+  middlewares.attachUser,
+  middlewares.roleCheck(0),
+  routes.user
+);
 
 sequelize.sync().then(() => {
   const listPort = process.env.PORT || 3000;
