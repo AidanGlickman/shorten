@@ -1,7 +1,17 @@
 import models from '../models';
 import workspaceService from './workspaceService';
 
-linkService = {
+const getLink = async (workspaceCode, linkCode) => {
+  const workspace = await workspaceService.getWorkspace(workspaceCode);
+  return await models.Link.findOne({
+    where: {
+      workspaceId: workspace.id,
+      code: linkCode,
+    },
+  });
+};
+
+const linkService = {
   createLink: async (workspaceCode, linkInfo) => {
     const workspace = await workspaceService.getWorkspace(workspaceCode);
     return await models.Link.create({
@@ -13,17 +23,11 @@ linkService = {
     });
   },
   getLink: async (workspaceCode, linkCode) => {
-    const workspace = await workspaceService.getWorkspace(workspaceCode);
-    return await models.Link.findOne({
-      where: {
-        workspaceId: workspace.id,
-        code: linkCode,
-      },
-    });
+    return await getLink(workspaceCode, linkCode);
   },
   editLink: async (workspaceCode, linkCode, newLinkInfo) => {
-    const link = await this.getLink(workspaceCode, linkCode);
-    link.update({
+    const link = await getLink(workspaceCode, linkCode);
+    return await link.update({
       code: newLinkInfo.code,
       link: newLinkInfo.link,
       name: newLinkInfo.name,

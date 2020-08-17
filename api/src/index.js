@@ -21,6 +21,7 @@ app.use(
   routes.admin
 );
 app.use('/workspace', routes.workspace);
+app.use('/link/:workspaceCode', routes.link);
 
 sequelize.sync().then(() => {
   const listPort = process.env.PORT || 3000;
