@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
     res.cookie('refresh', response.refresh.token, {
       httpOnly: true,
       maxAge: response.refresh.time * 1000,
-      // signed: true,
+      signed: true,
     });
   } catch (error) {
     return res.status(401).send(error.message);
