@@ -62,13 +62,19 @@ router.post('/reset', async (req, res) => {
 router.post('/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+  const remember = req.body.remember;
   let response;
   try {
-    response = await authService.login(username, password);
+    response = await authService.login(username, password, remember);
+    res.cookie('refresh', response.refresh.token, {
+      httpOnly: true,
+      maxAge: response.refresh.time * 1000,
+      // signed: true,
+    });
   } catch (error) {
     return res.status(401).send(error.message);
   }
-  return res.send(response);
+  return res.send(response.response);
 });
 
 export default router;

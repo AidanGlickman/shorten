@@ -3,23 +3,12 @@ import * as jwt from 'jsonwebtoken';
 import models from '../models';
 import mailService from './mailService';
 import validator from 'validator';
-
-function generateJWT(user) {
-  const data = {
-    id: user.id,
-    username: user.username,
-    email: user.email,
-  };
-
-  const signature = process.env.JWT_SECRET;
-  const expiration = '6h';
-
-  return jwt.sign({ data }, signature, { expiresIn: expiration });
-}
+import sessionHelpers from '../helpers/sessionHelpers';
+import sessionService from './sessionService';
 
 const authService = {
   generateToken: (user) => {
-    return generateJWT(user);
+    return sessionHelpers.generateJWT(user);
   },
   register: async (email, password, username) => {
     if (!validator.isEmail(email)) {
@@ -33,7 +22,7 @@ const authService = {
       role: -1,
     });
     try {
-      mailService.sendRegEmail(generateJWT(userRecord));
+      mailService.sendRegEmail(sessionHelpers.generateJWT(userRecord));
     } catch (error) {
       throw new Error('Something went wrong. Please try again');
     }
@@ -66,14 +55,14 @@ const authService = {
         email: updated.email,
         username: updated.username,
       },
-      token: generateJWT(updated),
+      token: sessionHelpers.generateJWT(updated),
     };
   },
 
   forgot: async (username) => {
     const userRecord = await models.User.findByLogin(username);
     if (userRecord) {
-      mailService.sendResetEmail(generateJWT(userRecord));
+      mailService.sendResetEmail(sessionHelpers.generateJWT(userRecord));
     }
     return {
       username,
@@ -99,11 +88,11 @@ const authService = {
         email: updated.email,
         username: updated.username,
       },
-      token: generateJWT(updated),
+      token: sessionHelpers.generateJWT(updated),
     };
   },
 
-  login: async (username, password) => {
+  login: async (username, password, remember) => {
     const userRecord = await models.User.findByLogin(username);
     if (!userRecord) {
       throw new Error('User not found');
@@ -117,11 +106,14 @@ const authService = {
     }
 
     return {
-      user: {
-        email: userRecord.email,
-        username: userRecord.username,
+      response: {
+        user: {
+          email: userRecord.email,
+          username: userRecord.username,
+        },
+        token: sessionHelpers.generateJWT(userRecord),
       },
-      token: generateJWT(userRecord),
+      refresh: sessionService.newRefresh(userRecord, remember),
     };
   },
 };
