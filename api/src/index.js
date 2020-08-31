@@ -4,15 +4,20 @@ import express from 'express';
 import routes from './routes';
 import middlewares from './middlewares';
 import cookieParser from 'cookie-parser';
+import device from 'express-device';
 
 import models, { sequelize } from './models';
 
 const app = express();
 
+app.set('trust proxy', true);
+
 app.use(express.json());
 
 app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
+
+app.use(device.capture());
 
 app.use('/auth', routes.auth);
 app.use(
@@ -33,7 +38,7 @@ app.use(
 );
 app.use('/session', routes.session);
 
-sequelize.sync().then(() => {
+sequelize.sync({ alter: process.env.NODE_ENV === 'development' }).then(() => {
   const listPort = process.env.PORT || 3000;
   app.listen(listPort, () =>
     console.log('Siren Paw listening on port ' + listPort + '!')

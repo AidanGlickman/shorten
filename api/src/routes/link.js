@@ -3,6 +3,7 @@ import middlewares from '../middlewares';
 import roleCheck from '../middlewares/roleCheck';
 import workspaceService from '../services/workspaceService';
 import linkService from '../services/linkService';
+import analyticsService from '../services/analyticsService';
 
 const router = Router({ mergeParams: true });
 
@@ -43,6 +44,9 @@ router.get('/:code', async (req, res) => {
       req.params.workspaceCode,
       req.params.code
     );
+    try {
+      analyticsService.attachAnalytic(req, 'link', result.id);
+    } catch (error) {}
   } catch (error) {
     return res.status(400).send(error);
   }

@@ -6,6 +6,9 @@ const analytic = (sequelize, DataTypes) => {
     device: {
       type: DataTypes.STRING,
     },
+    deviceType: {
+      type: DataTypes.STRING,
+    },
     ip: {
       type: DataTypes.STRING,
     },
@@ -16,6 +19,7 @@ const analytic = (sequelize, DataTypes) => {
 
   Analytic.associate = (models) => {
     Analytic.belongsTo(models.Workspace);
+    Analytic.belongsTo(models.Link);
   };
 
   return Analytic;

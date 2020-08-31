@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import middlewares from '../middlewares';
 import workspaceService from '../services/workspaceService';
+import analyticsService from '../services/analyticsService';
 import * as argon2 from 'argon2';
 import models from '../models';
 
@@ -50,6 +51,10 @@ router.get('/:code', async (req, res) => {
     },
   });
 
+  try {
+    analyticsService.attachAnalytic(req, 'workspace', workspace.id);
+  } catch (error) {}
+
   return res.send({
     workspace: {
       code: workspace.code,
@@ -90,6 +95,10 @@ router.get('/private/:code', async (req, res) => {
       workspaceId: workspace.id,
     },
   });
+
+  try {
+    analyticsService.attachAnalytic(req, 'workspace', workspace.id);
+  } catch (error) {}
 
   return res.send({
     workspace: {

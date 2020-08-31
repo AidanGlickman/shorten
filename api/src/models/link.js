@@ -24,7 +24,13 @@ const link = (sequelize, DataTypes) => {
 
   Link.associate = (models) => {
     Link.belongsTo(models.Workspace);
-    Link.hasMany(models.Analytic, { onDelete: 'CASCADE' });
+    Link.hasMany(models.Analytic, {
+      onDelete: 'CASCADE',
+      foreignKey: {
+        constraints: false,
+        allowNull: true,
+      },
+    });
   };
 
   return Link;
