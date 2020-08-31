@@ -49,7 +49,6 @@ router.get('/:code', async (req, res) => {
       workspaceId: workspace.id,
     },
   });
-  console.log(links);
 
   return res.send({
     workspace: {
