@@ -22,7 +22,7 @@ const authService = {
       role: -1,
     });
     try {
-      mailService.sendRegEmail(sessionHelpers.generateJWT(userRecord));
+      mailService.sendRegEmail(sessionHelpers.generateJWT(userRecord, true));
     } catch (error) {
       throw new Error('Something went wrong. Please try again');
     }

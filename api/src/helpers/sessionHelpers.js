@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import redis from './redisClient';
 
 const helpers = {
-  generateJWT: (user) => {
+  generateJWT: (user, register = false) => {
     const data = {
       id: user.id,
       username: user.username,
@@ -12,7 +12,10 @@ const helpers = {
 
     const signature = process.env.JWT_SECRET;
 
-    return jwt.sign({ data }, signature, { expiresIn: process.env.JWT_EXPIRE });
+    const multi = register ? 3 : 1;
+    return jwt.sign({ data }, signature, {
+      expiresIn: process.env.JWT_EXPIRE * multi,
+    });
   },
   setRefresh: (user, remember) => {
     const rToken = uuidv4();
