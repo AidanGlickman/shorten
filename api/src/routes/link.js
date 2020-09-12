@@ -37,16 +37,18 @@ router.post(
   }
 );
 
-router.get('/:code', async (req, res) => {
+router.post('/:code', async (req, res) => {
   let result;
   try {
     result = await linkService.getLink(
       req.params.workspaceCode,
       req.params.code
     );
-    try {
-      analyticsService.attachAnalytic(req, 'link', result.id);
-    } catch (error) {}
+    if (req.body.analytic) {
+      try {
+        analyticsService.attachAnalytic(req, 'link', result.id);
+      } catch (error) {}
+    }
   } catch (error) {
     return res.status(400).send(error);
   }
