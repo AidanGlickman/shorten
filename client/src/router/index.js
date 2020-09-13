@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Workspace from '../views/Workspace.vue';
+import axios from 'axios';
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,22 @@ router.beforeEach((to, from, next) => {
   const domain = 'localhost';
   const workspacePage = 'Workspace';
   if (splitted.length > domain.split('.').length && to.name !== workspacePage) {
+    if (window.location.pathname !== '') {
+      axios
+        .post(
+          process.env.API_URL +
+            '/' +
+            splitted[0] +
+            '/' +
+            window.location.pathname,
+          {
+            analytic: true,
+          }
+        )
+        .then((response) => {
+          window.location = response.url;
+        });
+    }
     next({
       name: 'Workspace',
       component: Workspace,
