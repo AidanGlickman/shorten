@@ -1,5 +1,5 @@
-import models from '../models';
 import * as argon2 from 'argon2';
+import models from '../models';
 
 const workspaceService = {
   createWorkspace: async (user, workspaceInfo) => {
@@ -19,14 +19,10 @@ const workspaceService = {
       },
     };
   },
-  getWorkspace: async (workspaceCode) => {
-    return await models.Workspace.findOne({ where: { code: workspaceCode } });
-  },
-  deleteWorkspace: async (workspaceCode) => {
-    return await models.Workspace.destroy({
-      where: { code: workspaceCode },
-    });
-  },
+  getWorkspace: async (code) => models.Workspace.findOne({ where: { code } }),
+  deleteWorkspace: async (workspaceCode) => models.Workspace.destroy({
+    where: { code: workspaceCode },
+  }),
   editWorkspace: async (workspaceCode, newWorkspaceInfo) => {
     const workspace = await models.Workspace.findOne({
       where: { code: workspaceCode },
@@ -43,7 +39,6 @@ const workspaceService = {
     const workspace = await models.Workspace.findOne({
       where: { code: workspaceCode },
     });
-    console.log(workspace);
     return workspace !== null;
   },
 };

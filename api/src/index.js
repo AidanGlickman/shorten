@@ -1,12 +1,12 @@
 import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
-import routes from './routes';
-import middlewares from './middlewares';
 import cookieParser from 'cookie-parser';
 import device from 'express-device';
+import routes from './routes';
+import middlewares from './middlewares';
 
-import models, { sequelize } from './models';
+import { sequelize } from './models';
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.use(
   middlewares.isAuth,
   middlewares.attachUser,
   middlewares.roleCheck(2),
-  routes.admin
+  routes.admin,
 );
 app.use('/workspace', routes.workspace);
 app.use('/link/:workspaceCode', routes.link);
@@ -34,13 +34,12 @@ app.use(
   middlewares.isAuth,
   middlewares.attachUser,
   middlewares.roleCheck(0),
-  routes.user
+  routes.user,
 );
 app.use('/session', routes.session);
 
 sequelize.sync({ alter: process.env.NODE_ENV === 'development' }).then(() => {
   const listPort = process.env.PORT || 3000;
-  app.listen(listPort, () =>
-    console.log('Siren Paw listening on port ' + listPort + '!')
-  );
+  // eslint-disable-next-line no-console
+  app.listen(listPort, () => console.log(`Siren Paw listening on port ${listPort}!`));
 });

@@ -30,12 +30,11 @@ router.post('/user', async (req, res) => {
       req.body.page,
       req.body.usersPer,
       req.body.filters,
-      req.body.search
+      req.body.search,
     );
   } catch (error) {
     return res.status(400).send(error.message);
   }
-  console.log(users);
   return res.send(users);
 });
 

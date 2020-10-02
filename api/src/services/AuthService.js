@@ -1,15 +1,13 @@
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
+import validator from 'validator';
 import models from '../models';
 import mailService from './mailService';
-import validator from 'validator';
 import sessionHelpers from '../helpers/sessionHelpers';
 import sessionService from './sessionService';
 
 const authService = {
-  generateToken: (user) => {
-    return sessionHelpers.generateJWT(user);
-  },
+  generateToken: (user) => sessionHelpers.generateJWT(user),
   register: async (email, password, username) => {
     if (!validator.isEmail(email)) {
       throw new Error('Invalid email');
@@ -37,7 +35,7 @@ const authService = {
   verify: async (token) => {
     const signature = process.env.JWT_SECRET;
     let email;
-    jwt.verify(token, signature, function (err, decoded) {
+    jwt.verify(token, signature, (err, decoded) => {
       if (err) {
         throw err;
       }
@@ -72,7 +70,7 @@ const authService = {
   reset: async (token, password) => {
     const signature = process.env.JWT_SECRET;
     let email;
-    jwt.verify(token, signature, function (err, decoded) {
+    jwt.verify(token, signature, (err, decoded) => {
       if (err) {
         throw err;
       }

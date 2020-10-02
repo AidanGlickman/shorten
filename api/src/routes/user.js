@@ -6,7 +6,7 @@ const router = Router();
 router.get('/workspaces', async (req, res) => {
   try {
     return res.send(
-      await userService.getUserWorkspaces(req.currentUser.username)
+      await userService.getUserWorkspaces(req.currentUser.username),
     );
   } catch (error) {
     return res.status(400).send(error.message);

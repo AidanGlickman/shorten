@@ -9,7 +9,6 @@ export default async (req, res, next) => {
 
   if (!userRecord) {
     return res.status(401).end('User not found');
-  } else {
-    return next();
   }
+  return next();
 };

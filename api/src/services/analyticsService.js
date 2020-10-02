@@ -6,9 +6,9 @@ const createAnalytic = async (
   device,
   ip,
   refurl,
-  attached
+  attached,
 ) => {
-  const foreignModel = attached.model + 'Id';
+  const foreignModel = `${attached.model}Id`;
   const options = {
     timestamp,
     deviceType,
@@ -17,7 +17,7 @@ const createAnalytic = async (
     refurl,
   };
   options[foreignModel] = attached.id;
-  const newAnalytic = await models.Analytic.create(options);
+  await models.Analytic.create(options);
 };
 
 const analyticsService = {
@@ -25,13 +25,12 @@ const analyticsService = {
     const timestamp = Date.now();
     const deviceType = req.device_type;
     const device = req.device_name;
-    const ip = req.ip;
+    const { ip } = req;
     const refurl = req.get('Referrer');
     const attached = {
       model,
       id: objId,
     };
-    console.log(attached);
 
     await createAnalytic(timestamp, deviceType, device, ip, refurl, attached);
   },

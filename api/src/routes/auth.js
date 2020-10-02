@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import authService from '../services/authService';
 import Sequelize from 'sequelize';
+import authService from '../services/authService';
 
 const router = Router();
 
 router.post('/register', async (req, res) => {
-  const email = req.body.email;
-  const username = req.body.username;
-  const password = req.body.password;
+  const { email } = req.body;
+  const { username } = req.body;
+  const { password } = req.body;
   let response;
   try {
     response = await authService.register(email, password, username);
@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/verify', async (req, res) => {
-  const token = req.body.token;
+  const { token } = req.body;
 
   let response;
   try {
@@ -33,11 +33,11 @@ router.post('/verify', async (req, res) => {
     return res.status(401).send(error.message);
   }
 
-  res.send(response);
+  return res.send(response);
 });
 
 router.post('/forgot', async (req, res) => {
-  const username = req.body.username;
+  const { username } = req.body;
   let response;
   try {
     response = await authService.forgot(username);
@@ -48,8 +48,8 @@ router.post('/forgot', async (req, res) => {
 });
 
 router.post('/reset', async (req, res) => {
-  const password = req.body.password;
-  const token = req.body.token;
+  const { password } = req.body;
+  const { token } = req.body;
   let response;
   try {
     response = await authService.reset(token, password);
@@ -60,9 +60,9 @@ router.post('/reset', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const remember = req.body.remember;
+  const { username } = req.body;
+  const { password } = req.body;
+  const { remember } = req.body;
   let response;
   try {
     response = await authService.login(username, password, remember);

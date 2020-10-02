@@ -3,9 +3,7 @@ import sessionHelpers from '../helpers/sessionHelpers';
 import models from '../models';
 
 const sessionService = {
-  newRefresh: (user) => {
-    return sessionHelpers.setRefresh(user);
-  },
+  newRefresh: (user) => sessionHelpers.setRefresh(user),
   refresh: async (rToken) => {
     const userId = await redis.get(rToken);
     redis.del(rToken);
@@ -13,7 +11,7 @@ const sessionService = {
     const jwtToken = sessionHelpers.generateJWT(user);
     const refresh = sessionHelpers.setRefresh(user);
     return {
-      jwtToken: jwtToken,
+      jwtToken,
       refresh,
     };
   },

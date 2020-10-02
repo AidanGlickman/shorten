@@ -1,8 +1,8 @@
 import { Router } from 'express';
+import * as argon2 from 'argon2';
 import middlewares from '../middlewares';
 import workspaceService from '../services/workspaceService';
 import analyticsService from '../services/analyticsService';
-import * as argon2 from 'argon2';
 import models from '../models';
 
 const router = Router();
@@ -24,13 +24,13 @@ router.post(
     try {
       result = await workspaceService.createWorkspace(
         req.currentUser,
-        workspaceInfo
+        workspaceInfo,
       );
       return res.send(result);
     } catch (error) {
       return res.status(401).send(error.message);
     }
-  }
+  },
 );
 
 router.get('/:code', async (req, res) => {
@@ -53,7 +53,9 @@ router.get('/:code', async (req, res) => {
 
   try {
     analyticsService.attachAnalytic(req, 'workspace', workspace.id);
-  } catch (error) {}
+  } catch (error) {
+    // analytic failed, just ignore it
+  }
 
   return res.send({
     workspace: {
@@ -70,6 +72,13 @@ router.get('/private/:code', async (req, res) => {
   if (workspace == null) {
     return res.status(404).send('no workspace matching that code');
   }
+
+  const links = await models.Link.findAll({
+    where: {
+      workspaceId: workspace.id,
+    },
+  });
+
   if (!workspace.private) {
     return res.send({
       workspace: {
@@ -83,22 +92,18 @@ router.get('/private/:code', async (req, res) => {
 
   const correctPass = await argon2.verify(
     workspace.password,
-    req.body.password
+    req.body.password,
   );
 
   if (!correctPass) {
     return res.status(401).send('incorrect password for this workspace');
   }
 
-  const links = await models.Link.findAll({
-    where: {
-      workspaceId: workspace.id,
-    },
-  });
-
   try {
     analyticsService.attachAnalytic(req, 'workspace', workspace.id);
-  } catch (error) {}
+  } catch (error) {
+    // analytic failed, just ignore it
+  }
 
   return res.send({
     workspace: {
@@ -126,7 +131,7 @@ router.delete(
       return res.status(400).send('something went wrong. please try again');
     }
     return res.send(result);
-  }
+  },
 );
 
 router.post(
@@ -148,14 +153,14 @@ router.post(
         };
         result = await workspaceService.editWorkspace(
           workspace.code,
-          newWorkspaceInfo
+          newWorkspaceInfo,
         );
       }
     } catch (error) {
       return res.status(401).send(error.message);
     }
     return res.send(result);
-  }
+  },
 );
 
 export default router;

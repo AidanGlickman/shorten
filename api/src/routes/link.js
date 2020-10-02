@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import middlewares from '../middlewares';
-import roleCheck from '../middlewares/roleCheck';
 import workspaceService from '../services/workspaceService';
 import linkService from '../services/linkService';
 import analyticsService from '../services/analyticsService';
@@ -13,9 +12,8 @@ router.post(
   middlewares.attachUser,
   middlewares.roleCheck(0),
   async (req, res) => {
-    console.log(req.params);
     const workspace = await workspaceService.getWorkspace(
-      req.params.workspaceCode
+      req.params.workspaceCode,
     );
     if (workspace.userId !== req.currentUser.id) {
       return res.status(401).send('user does not own workspace');
@@ -34,7 +32,7 @@ router.post(
       return res.status(400).send(error.message);
     }
     return res.send(result);
-  }
+  },
 );
 
 router.post('/:code', async (req, res) => {
@@ -42,17 +40,19 @@ router.post('/:code', async (req, res) => {
   try {
     result = await linkService.getLink(
       req.params.workspaceCode,
-      req.params.code
+      req.params.code,
     );
     if (req.body.analytic) {
       try {
         analyticsService.attachAnalytic(req, 'link', result.id);
-      } catch (error) {}
+      } catch (error) {
+        // analytic failed, just ignore it
+      }
     }
   } catch (error) {
     return res.status(400).send(error);
   }
-  res.send(result);
+  return res.send(result);
 });
 
 router.post(
@@ -62,7 +62,7 @@ router.post(
   middlewares.roleCheck(0),
   async (req, res) => {
     const workspace = await workspaceService.getWorkspace(
-      req.params.workspaceCode
+      req.params.workspaceCode,
     );
     if (workspace.userId !== req.currentUser.id) {
       return res.status(401).send('user does not own workspace');
@@ -78,13 +78,13 @@ router.post(
       result = await linkService.editLink(
         workspace.code,
         req.params.code,
-        newLinkInfo
+        newLinkInfo,
       );
     } catch (error) {
       return res.status(400).send(error.message);
     }
     return res.send(result);
-  }
+  },
 );
 
 router.delete(
@@ -94,7 +94,7 @@ router.delete(
   middlewares.roleCheck(0),
   async (req, res) => {
     const workspace = await workspaceService.getWorkspace(
-      req.params.workspaceCode
+      req.params.workspaceCode,
     );
     if (workspace.userId !== req.currentUser.id) {
       return res.status(401).send('user does not own workspace');
@@ -103,13 +103,13 @@ router.delete(
     try {
       result = linkService.deleteLink(
         req.params.workspaceCode,
-        req.params.code
+        req.params.code,
       );
     } catch (error) {
       return res.status(400).send(error.message);
     }
     return res.send(result);
-  }
+  },
 );
 
 export default router;
