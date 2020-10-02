@@ -12,6 +12,19 @@ services:
     command: redis-server --requirepass ${REDIS_PASS}
     ports:
       - "6379:6379"
+  gateway:
+    depends_on:
+      - api
+      # - client
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./gateway
+    volumes:
+      - /app/node_modules
+      - ./gateway:/app
+    environment:
+      - CLIENT_URL=client
+      - API_URL=api
   api:
     depends_on:
       - postgres
@@ -39,11 +52,11 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASS=${REDIS_PASS}
       - REDIS_DB=0
-  client:
-    stdin_open: true
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
+  # client:
+  #   stdin_open: true
+  #   build:
+  #     dockerfile: Dockerfile.dev
+  #     context: ./client
+  #   volumes:
+  #     - /app/node_modules
+  #     - ./client:/app
