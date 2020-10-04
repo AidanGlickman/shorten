@@ -15,7 +15,6 @@ services:
   gateway:
     depends_on:
       - api
-      # - client
     build:
       dockerfile: Dockerfile.dev
       context: ./gateway
@@ -23,8 +22,11 @@ services:
       - /app/node_modules
       - ./gateway:/app
     environment:
-      - CLIENT_URL=client
-      - API_URL=api
+      - WORKSPACE_CLIENT_URL=workpace-client
+      - BASE_CLIENT_URL=base-client
+      - API_URL=api:3000
+    ports:
+      - "80:80"
   api:
     depends_on:
       - postgres
@@ -52,11 +54,5 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASS=${REDIS_PASS}
       - REDIS_DB=0
-  # client:
-  #   stdin_open: true
-  #   build:
-  #     dockerfile: Dockerfile.dev
-  #     context: ./client
-  #   volumes:
-  #     - /app/node_modules
-  #     - ./client:/app
+    ports:
+      - "3000:3000"
