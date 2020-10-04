@@ -22,7 +22,7 @@ services:
       - /app/node_modules
       - ./gateway:/app
     environment:
-      - WORKSPACE_CLIENT_URL=workpace-client
+      - WORKSPACE_CLIENT_URL=workspace-client:3001
       - BASE_CLIENT_URL=base-client
       - API_URL=api:3000
     ports:
@@ -56,3 +56,15 @@ services:
       - REDIS_DB=0
     ports:
       - "3000:3000"
+  workspace-client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./workspace-client
+    volumes:
+      - /app/node_modules
+      - ./workspace-client:/app
+    environment:
+      - PORT=3001
+    ports:
+      - "3001:3001"
+    stdin_open: true
