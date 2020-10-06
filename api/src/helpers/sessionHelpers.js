@@ -14,7 +14,7 @@ const helpers = {
 
     const multi = register ? 3 : 1;
     return jwt.sign({ data }, signature, {
-      expiresIn: process.env.JWT_EXPIRE * multi,
+      expiresIn: parseInt(process.env.JWT_EXPIRE) * multi,
     });
   },
   setRefresh: (user, remember) => {
