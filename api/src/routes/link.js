@@ -35,19 +35,17 @@ router.post(
   },
 );
 
-router.post('/:code', async (req, res) => {
+router.get('/:code', async (req, res) => {
   let result;
   try {
     result = await linkService.getLink(
       req.params.workspaceCode,
       req.params.code,
     );
-    if (req.body.analytic) {
-      try {
-        analyticsService.attachAnalytic(req, 'link', result.id);
-      } catch (error) {
-        // analytic failed, just ignore it
-      }
+    try {
+      analyticsService.attachAnalytic(req, 'link', result.id);
+    } catch (error) {
+      // analytic failed, just ignore it
     }
   } catch (error) {
     return res.status(400).send(error);
