@@ -1,16 +1,19 @@
 <template>
 <div>
-  <code>{{this.workspace.code}}.srn.pw</code>
-  <h1>{{this.workspace.title}}</h1>
-  <h2>{{this.workspace.description}}</h2>
-  <div v-if="this.fetched">
-    <LinkCard v-for='link in this.workspace.links' :link='link' :key='link.id'></LinkCard>
+  <code>{{this.code}}.srn.pw</code>
+  <div v-if="this.workspace">
+    <h1>{{this.workspace.title}}</h1>
+    <h2>{{this.workspace.description}}</h2>
+    <LinksContainer v-if="this.fetched" :links="this.workspace.links"></LinksContainer>
+  </div>
+  <div v-if="this.error">
+      {{this.error}}
   </div>
 </div>
 </template>
 
 <script>
-import LinkCard from '@/components/LinkCard.vue';
+import LinksContainer from '@/containers/LinksContainer.vue';
 
 export default {
   name: 'WorkspaceContainer',
@@ -18,7 +21,7 @@ export default {
     code: String,
   },
   components: {
-    LinkCard,
+    LinksContainer,
   },
   data() {
     return {
@@ -33,7 +36,8 @@ export default {
       this.workspace = res.data.workspace;
       this.fetched = true;
     }).catch((err) => {
-      this.error = err;
+      console.log(err.response);
+      this.error = err.response.data;
     });
   },
 };
