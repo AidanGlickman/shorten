@@ -67,6 +67,7 @@ services:
       - ./workspace-client:/app
     environment:
       - PORT=3001
+      - BASE_URL=localhost
     ports:
       - "3001:3001"
     stdin_open: true
