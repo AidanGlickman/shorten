@@ -8,7 +8,7 @@
     >
       <b-form-input
         id="user-input"
-        v-model="login.user"
+        v-model="user.username"
         required
         placeholder="username"
       ></b-form-input>
@@ -20,30 +20,49 @@
     >
       <b-form-input
         id="pass-input"
-        v-model="login.pass"
+        v-model="user.password"
         type="password"
         required
         placeholder="password"
       ></b-form-input>
+    </b-form-group>
+    <b-form-group
+      id="remember-group"
+      label="Remember Me"
+      label-for="remember-check"
+    >
+    <b-form-checkbox
+      id="remember-check"
+      v-model="user.remember"
+      name="checkbox-1"
+      value="true"
+      unchecked-value=""
+      switch
+    >
+    </b-form-checkbox>
     </b-form-group>
     <b-button type="submit" variant="primary">Submit</b-button>
   </b-form>
 </template>
 
 <script>
+import authService from '@/lib/authService';
+
 export default {
   name: 'Login',
   data() {
     return {
-      login: {
-        user: '',
-        pass: '',
+      user: {
+        username: '',
+        password: '',
+        remember: '',
       },
     };
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
+      authService.login(this.user);
     },
   },
 };
