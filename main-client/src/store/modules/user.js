@@ -21,14 +21,21 @@ const getters = {
 };
 
 const actions = {
-  login(context, user) {
-    api.post('auth/login', {
-      username: user.username,
-      password: user.password,
-      remember: (user.remember === 'true'),
-    }).then((response) => {
-      context.commit('login', response.data);
-    }).catch((error) => console.log(error.response.data));
+  async login(context, user) {
+    try {
+      const response = await api.post('auth/login', {
+        username: user.username,
+        password: user.password,
+        remember: (user.remember === 'true'),
+      });
+      return { success: true, data: response.data.user.username };
+    } catch (err) {
+      return { success: false, data: err.response.data };
+    }
+    // .then((response) => {
+    //   context.commit('login', response.data);
+    //   return { success: true };
+    // }).catch((error) => ({ success: false, error: error.response.data }));
   },
   refreshToken(context) {
     api.post('/session/refresh').then((res) => {

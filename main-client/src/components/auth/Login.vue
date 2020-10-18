@@ -58,9 +58,22 @@ export default {
     };
   },
   methods: {
-    onSubmit(evt) {
+    async onSubmit(evt) {
       evt.preventDefault();
-      this.$store.dispatch('user/login', this.user);
+      const loggedIn = await this.$store.dispatch('user/login', this.user);
+      console.log(loggedIn);
+      if (loggedIn.success) {
+        this.$router.push('/me');
+      } else {
+        this.$bvToast.toast(loggedIn.data, {
+          title: 'Login Failed',
+          variant: 'danger',
+          autoHideDelay: 5000,
+          appendToast: 'append',
+        });
+        this.user.password = '';
+        this.remember = '';
+      }
     },
   },
 };
