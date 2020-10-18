@@ -10,10 +10,7 @@ const state = () => ({
 
 const getters = {
   isLoggedIn(state) {
-    if (state.token) {
-      return state;
-    }
-    return false;
+    return Boolean(state.token);
   },
   isTokenExpired(state) {
     const currToken = state.token;
