@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import authService from '@/lib/authService';
-
 export default {
   name: 'Login',
   data() {
@@ -62,7 +60,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      authService.login(this.user);
+      this.$store.dispatch('user/login', this.user);
     },
   },
 };
