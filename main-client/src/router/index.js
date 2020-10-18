@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Auth from '../views/Auth.vue';
+import Verify from '../views/Verify.vue';
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/login',
     name: 'Auth',
     component: Auth,
+  },
+  {
+    path: '/verify',
+    name: 'Verify',
+    component: Verify,
   },
   {
     path: '/about',
