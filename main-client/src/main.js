@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { BootstrapVue } from 'bootstrap-vue';
+import Vuelidate from 'vuelidate';
 import api from '@/lib/api';
 import App from './App.vue';
 import router from './router';
@@ -12,6 +13,7 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$api = api;
 Vue.use(BootstrapVue);
+Vue.use(Vuelidate);
 
 new Vue({
   router,

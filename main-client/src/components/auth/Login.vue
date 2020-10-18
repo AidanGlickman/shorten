@@ -63,6 +63,12 @@ export default {
       const loggedIn = await this.$store.dispatch('user/login', this.user);
       console.log(loggedIn);
       if (loggedIn.success) {
+        this.$root.$bvToast.toast(`Welcome ${loggedIn.data}!`, {
+          title: 'Login Success!',
+          variant: 'success',
+          autoHideDelay: 5000,
+          appendToast: 'append',
+        });
         this.$router.push('/me');
       } else {
         this.$bvToast.toast(loggedIn.data, {

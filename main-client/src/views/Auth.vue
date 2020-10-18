@@ -7,12 +7,15 @@
     button-variant="outline-primary"
     buttons
     ></b-form-radio-group>
+    <hr/>
     <Login v-if="signup === 'login'"></Login>
+    <Signup v-if="signup === 'signup'" @success="this.signup = login"></Signup>
   </div>
 </template>
 
 <script>
 import Login from '@/components/auth/Login.vue';
+import Signup from '@/components/auth/Signup.vue';
 
 export default {
   name: 'auth',
@@ -27,6 +30,7 @@ export default {
   },
   components: {
     Login,
+    Signup,
   },
 };
 </script>
