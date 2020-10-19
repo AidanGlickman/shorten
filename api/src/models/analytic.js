@@ -1,5 +1,10 @@
 const analytic = (sequelize, DataTypes) => {
   const Analytic = sequelize.define('analytic', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+    },
     timestamp: {
       type: DataTypes.DATE,
     },

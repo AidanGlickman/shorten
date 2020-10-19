@@ -1,5 +1,10 @@
 const link = (sequelize, DataTypes) => {
   const Link = sequelize.define('link', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+    },
     code: {
       type: DataTypes.STRING,
       allowNull: false,

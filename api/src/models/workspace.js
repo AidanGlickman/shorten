@@ -1,5 +1,10 @@
 const workspace = (sequelize, DataTypes) => {
   const Workspace = sequelize.define('workspace', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+    },
     code: {
       type: DataTypes.STRING,
       unique: true,
