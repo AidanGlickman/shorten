@@ -17,10 +17,9 @@ const authService = {
       username,
       email,
       password: hashed,
-      role: -1,
     });
     try {
-      mailService.sendRegEmail(sessionHelpers.generateJWT(userRecord, true));
+      mailService.sendRegEmail(userRecord.id);
     } catch (error) {
       throw new Error('Something went wrong. Please try again');
     }
@@ -33,16 +32,9 @@ const authService = {
   },
 
   verify: async (token) => {
-    const signature = process.env.JWT_SECRET;
-    let email;
-    jwt.verify(token, signature, (err, decoded) => {
-      if (err) {
-        throw err;
-      }
-      email = decoded.data.email;
-    });
-
-    const user = await models.User.findOne({ where: { email } });
+    console.log(token)
+    const user = await models.User.findOne( { where: { id : token } });
+    console.log(user);
     if (user.role !== -1) {
       throw new Error('User already verified');
     }

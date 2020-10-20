@@ -26,7 +26,7 @@ const user = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.INTEGER,
-      defaultValue: 0,
+      defaultValue: -1,
     },
   });
 
@@ -39,7 +39,7 @@ const user = (sequelize, DataTypes) => {
       where: { username: login },
     });
 
-    if (!user) {
+    if (!found) {
       found = await User.findOne({
         where: { email: login },
       });
