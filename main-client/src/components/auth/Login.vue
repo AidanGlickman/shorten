@@ -67,7 +67,7 @@ export default {
           title: 'Login Success!',
           variant: 'success',
           autoHideDelay: 5000,
-          appendToast: 'append',
+          appendToast: true,
         });
         this.$router.push('/me');
       } else {
@@ -75,7 +75,7 @@ export default {
           title: 'Login Failed',
           variant: 'danger',
           autoHideDelay: 5000,
-          appendToast: 'append',
+          appendToast: true,
         });
         this.user.password = '';
         this.remember = '';

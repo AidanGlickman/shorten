@@ -97,7 +97,7 @@ export default {
           title: 'Signup Success!',
           variant: 'success',
           autoHideDelay: 5000,
-          appendToast: 'append',
+          appendToast: true,
         });
         this.$router.push('');
       } catch (err) {
@@ -105,9 +105,10 @@ export default {
           title: 'Signup Failed',
           variant: 'danger',
           autoHideDelay: 5000,
-          appendToast: 'append',
+          appendToast: true,
         });
         this.password = '';
+        this.passwordConfirm = '';
       }
     },
   },

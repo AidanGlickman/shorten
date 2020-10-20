@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
-import Auth from '../views/Auth.vue';
-import Verify from '../views/Verify.vue';
+import Auth from '../views/auth/Auth.vue';
+import Verify from '../views/auth/Verify.vue';
+import Reset from '../views/auth/Reset.vue';
 
 Vue.use(VueRouter);
 
@@ -14,13 +15,28 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'Auth',
+    name: 'Login',
+    component: Auth,
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
     component: Auth,
   },
   {
     path: '/verify',
     name: 'Verify',
     component: Verify,
+  },
+  {
+    path: '/reset',
+    name: 'Reset',
+    component: Reset,
+  },
+  {
+    path: '/forgot',
+    name: 'Forgot',
+    component: Auth,
   },
   {
     path: '/about',
