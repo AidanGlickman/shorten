@@ -63,7 +63,6 @@ router.post('/login', async (req, res) => {
   const { username } = req.body;
   const { password } = req.body;
   const { remember } = req.body;
-  console.log(req.body);
   let response;
   try {
     response = await authService.login(username, password, remember);

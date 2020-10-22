@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode';
-import api from '../../lib/api';
+import api from '@/lib/api';
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 
 const state = () => ({
@@ -32,7 +32,6 @@ const actions = {
       // return { success: true, data: res.data.user.username };
       return { success: true, data: res.data.user.username };
     } catch (err) {
-      console.log(err);
       return { success: false, data: err.response.data };
     }
     // .then((response) => {
@@ -42,7 +41,8 @@ const actions = {
   },
   refreshToken(context) {
     api.post('/session/refresh').then((res) => {
-      context.commit('updateToken', res.data.token);
+      context.commit('updateToken', res.data);
+      setTimeout(() => context.dispatch('refreshToken'), 780000);
       return true;
     }).catch(() => false);
   },
@@ -54,8 +54,16 @@ const mutations = {
     state.email = res.user.email;
     state.token = res.token;
   },
-  updateToken(state, token) {
-    state.token = token;
+  updateToken(state, res) {
+    state.token = res.token;
+    state.username = res.user.username;
+    state.email = res.user.email;
+  },
+  logout(state) {
+    state.token = '';
+    state.username = '';
+    state.email = '';
+    api.post('/session/logout');
   },
 };
 

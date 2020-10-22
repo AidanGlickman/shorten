@@ -17,7 +17,17 @@ router.post('/refresh', async (req, res) => {
     signed: true,
   });
 
-  return res.send({ token: response.jwtToken });
+  return res.send({ token: response.jwtToken, user: response.user });
 });
+
+router.post('/logout', (req, res) => {
+  const rToken = req.signedCookies.refresh;
+
+    const response = sessionService.logout(rToken);
+    res.cookie('refresh', '', {
+      maxAge: 0,
+    });
+    return res.send(response);
+})
 
 export default router;

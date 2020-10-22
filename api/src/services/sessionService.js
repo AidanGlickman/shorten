@@ -13,8 +13,16 @@ const sessionService = {
     return {
       jwtToken,
       refresh,
+      user: {username: user.username, email: user.email}
     };
   },
+  logout: async (rToken) => {
+    try {
+      redis.del(rToken);
+    } finally {
+      return true;
+    }
+  }
 };
 
 export default sessionService;
