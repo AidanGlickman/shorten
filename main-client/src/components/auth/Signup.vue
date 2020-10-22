@@ -50,13 +50,25 @@
         placeholder="password"
       ></b-form-input>
     </b-form-group>
-    <b-button type="submit" variant="primary" :disabled="$v.$invalid">Submit</b-button>
+    <b-button
+      type="submit"
+      variant="primary"
+      :disabled="$v.$invalid || !user.verified"
+    >Submit</b-button>
+    <vue-recaptcha
+      :sitekey="recaptchaSite"
+      :loadRecaptchaScript="true"
+      @verify="onVerify"
+      @expired="onExpire"
+    >
+    </vue-recaptcha>
   </b-form>
 </template>
 
 <script>
-import api from '@/lib/api';
+import VueRecaptcha from 'vue-recaptcha';
 import { required, email, sameAs } from 'vuelidate/lib/validators';
+import api from '@/lib/api';
 
 export default {
   name: 'Signup',
@@ -67,9 +79,12 @@ export default {
         email: '',
         password: '',
         passwordConfirm: '',
+        verified: false,
       },
+      recaptchaSite: '',
     };
   },
+  components: { VueRecaptcha },
   validations: {
     user: {
       username: {
@@ -111,6 +126,15 @@ export default {
         this.passwordConfirm = '';
       }
     },
+    onVerify() {
+      this.user.verified = true;
+    },
+    onExpire() {
+      this.user.verified = false;
+    },
+  },
+  created() {
+    this.recaptchaSite = process.env.VUE_APP_GRECAPTCHA_SITE;
   },
 };
 </script>

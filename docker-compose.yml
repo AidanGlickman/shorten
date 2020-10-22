@@ -80,6 +80,7 @@ services:
       - ./main-client:/app
     environment:
       - PORT=3002
+      - VUE_APP_GRECAPTCHA_SITE=${GRECAPTCHA_SITE}
     ports:
       - "3002:3002"
     stdin_open: true
