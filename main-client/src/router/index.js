@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Me from '@/views/Me.vue';
-import Home from '../views/Home.vue';
-import About from '../views/About.vue';
-import Auth from '../views/auth/Auth.vue';
-import Verify from '../views/auth/Verify.vue';
-import Reset from '../views/auth/Reset.vue';
+import Home from '@/views/Home.vue';
+import About from '@/views/About.vue';
+import Auth from '@/views/auth/Auth.vue';
+import Verify from '@/views/auth/Verify.vue';
+import Reset from '@/views/auth/Reset.vue';
 
 Vue.use(VueRouter);
 
