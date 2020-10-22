@@ -23,13 +23,16 @@ const getters = {
 const actions = {
   async login(context, user) {
     try {
-      const response = await api.post('auth/login', {
+      const res = await api.post('auth/login', {
         username: user.username,
         password: user.password,
         remember: (user.remember === 'true'),
       });
-      return { success: true, data: response.data.user.username };
+      context.commit('login', res.data);
+      // return { success: true, data: res.data.user.username };
+      return { success: true, data: res.data.user.username };
     } catch (err) {
+      console.log(err);
       return { success: false, data: err.response.data };
     }
     // .then((response) => {
