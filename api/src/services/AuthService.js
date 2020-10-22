@@ -5,6 +5,7 @@ import models from '../models';
 import mailService from './mailService';
 import sessionHelpers from '../helpers/sessionHelpers';
 import sessionService from './sessionService';
+import registerWorkspace from '../helpers/registerWorkspace';
 
 const authService = {
   generateToken: (user) => sessionHelpers.generateJWT(user),
@@ -32,13 +33,12 @@ const authService = {
   },
 
   verify: async (token) => {
-    console.log(token)
-    const user = await models.User.findOne( { where: { id : token } });
-    console.log(user);
+    const user = await models.User.findOne({ where: { id: token } });
     if (user.role !== -1) {
       throw new Error('User already verified');
     }
     const updated = await user.update({ role: 0 });
+    registerWorkspace(updated);
 
     return {
       user: {
