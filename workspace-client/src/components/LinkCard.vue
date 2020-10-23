@@ -4,8 +4,12 @@
       <div class="custcard">
         <div class="card-header">{{this.link.name}}</div>
         <div class="card-main">
-          <i :class="`lni lni-32 ${this.link.icon}`"></i>
-          <div class="main-description">{{this.link.code}}<br>{{this.link.link}}</div>
+          <i :class="`lni lni-32 lni-${this.link.icon}`"></i>
+          <div class="main-description">
+            <strong>{{this.link.code}}</strong>
+            <br>
+            {{this.link.link}}
+          </div>
         </div>
       </div>
     </a>
