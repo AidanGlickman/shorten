@@ -16,7 +16,7 @@ export default async (req, res, next) => {
   let tokenData;
   jwt.verify(token, signature, (err, decoded) => {
     if (err) {
-      return res.status(401).send('Invalid Token');
+      return res.status(498).send('Invalid Token');
     }
     tokenData = decoded.data;
     req.tokenData = tokenData;
