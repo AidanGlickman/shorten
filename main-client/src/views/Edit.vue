@@ -28,7 +28,7 @@ export default {
     },
     async getInfo() {
       try {
-        const workspaceRes = await api.get(`user/workspaces/${this.$route.params.code}`, { headers: { Authorization: `Bearer ${this.$store.state.user.token}` } });
+        const workspaceRes = await api.get(`user/workspaces/${this.$route.params.code}`);
         const { workspace, links } = workspaceRes.data;
         this.workspaceData = workspace;
         this.links = links;

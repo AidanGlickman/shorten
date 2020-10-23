@@ -17,6 +17,12 @@ const vuexStore = new Vuex.Store({
   },
 });
 
+api.interceptors.request.use((config) => {
+  const newConfig = config;
+  newConfig.headers.Authorization = `Bearer ${vuexStore.state.user.token}`;
+  return newConfig;
+});
+
 api.interceptors.response.use((response) => response, (error) => {
   const status = error.response ? error.response.status : null;
   const newReq = error;

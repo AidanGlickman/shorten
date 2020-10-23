@@ -36,9 +36,7 @@ export default {
   },
   methods: {
     async getUserWorkspaces() {
-      const workspaceList = await api.get('user/workspaces', {
-        headers: { Authorization: `Bearer ${this.$store.state.user.token}` },
-      });
+      const workspaceList = await api.get('user/workspaces');
       this.workspaces = workspaceList.data;
     },
   },

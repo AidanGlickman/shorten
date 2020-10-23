@@ -63,7 +63,7 @@ export default {
       evt.preventDefault();
       try {
         await api.post(`link/${this.workspaceCode}/${this.type === 'new' ? 'create' : this.link.code}`,
-          this.link, { headers: { Authorization: `Bearer ${this.$store.state.user.token}` } });
+          this.link);
         this.$root.$bvToast.toast(`${this.link.code} has been ${this.type === 'new' ? 'created' : 'updated'}`, {
           title: `Link ${this.type === 'new' ? 'Created' : 'Updated'}`,
           variant: 'success',
