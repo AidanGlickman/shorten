@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <WorkspaceContainer :code='this.workspaceCode'></WorkspaceContainer>
+    <b-container>
+      <WorkspaceContainer :code='this.workspaceCode'></WorkspaceContainer>
+    </b-container>
   </div>
 </template>
 

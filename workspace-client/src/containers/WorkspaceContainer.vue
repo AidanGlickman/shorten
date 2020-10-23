@@ -7,6 +7,7 @@
       <LinksContainer
         v-if="this.fetched"
         :links="this.workspace.links"
+        :workspaceCode="this.workspace.code"
       ></LinksContainer>
     </div>
     <div v-if="this.error">

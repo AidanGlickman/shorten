@@ -1,7 +1,12 @@
 <template>
-  <div class='row'>
-    <LinkCard v-for='link in this.links' :link='link' :key='link.id'></LinkCard>
-  </div>
+  <b-row class="justify-content-md-center">
+    <LinkCard
+      v-for='link in links'
+      :link='link'
+      :key='link.id'
+      :workspaceCode="workspaceCode"
+    ></LinkCard>
+  </b-row>
 </template>
 
 <script>
@@ -14,15 +19,10 @@ export default {
   },
   props: {
     links: Array,
+    workspaceCode: String,
   },
 };
 </script>
 
 <style>
-.row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 10vw;
-}
 </style>
