@@ -11,11 +11,11 @@
         <b-navbar-nav class="ml-auto">
 
           <template v-if="!isLoggedIn">
-            <b-nav-item to="login">Login</b-nav-item>
-            <b-nav-item to="signup">Signup</b-nav-item>
+            <b-nav-item to="/login">Login</b-nav-item>
+            <b-nav-item to="/signup">Signup</b-nav-item>
           </template>
           <template v-else>
-            <b-nav-item to="me">Me</b-nav-item>
+            <b-nav-item to="/me">Me</b-nav-item>
             <b-nav-item @click="logout">Logout</b-nav-item>
           </template>
         </b-navbar-nav>
