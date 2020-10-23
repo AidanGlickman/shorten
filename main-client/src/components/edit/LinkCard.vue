@@ -1,38 +1,40 @@
 <template>
-  <b-card
-    header-tag="header"
-    footer-tag="footer"
-  >
-    <template #header>
-      <b-input-group>
-      <b-input-group-prepend>
-        <b-button
-          v-if="type !== 'new'"
-          variant="danger"
-          @click="deleteLink"
-        ><i class="lni lni-trash"></i></b-button>
-        <b-input-group-text>{{workspaceCode}}.srn.pw/</b-input-group-text>
-      </b-input-group-prepend>
-        <b-form-input v-model="link.code" placeholder="code">
-        </b-form-input>
-      </b-input-group>
-    </template>
-
-    <b-card-body>
-      <b-form-input v-model="link.icon" placeholder="icon" class="mb-3">
-      </b-form-input>
-      <b-form-input v-model="link.link" placeholder="https://mylink.com">
-      </b-form-input>
-    </b-card-body>
-
-    <template #footer>
+  <b-col xs=12 md="6" lg="4" class="mb-3">
+    <b-card
+      header-tag="header"
+      footer-tag="footer"
+    >
+      <template #header>
         <b-input-group>
-          <b-form-input v-model="link.name" placeholder="name">
+        <b-input-group-prepend>
+          <b-button
+            v-if="type !== 'new'"
+            variant="danger"
+            @click="deleteLink"
+          ><i class="lni lni-trash"></i></b-button>
+          <b-input-group-text>{{workspaceCode}}.srn.pw/</b-input-group-text>
+        </b-input-group-prepend>
+          <b-form-input v-model="link.code" placeholder="code">
           </b-form-input>
-          <b-button type='submit' variant="success" @click="save">Save</b-button>
         </b-input-group>
-    </template>
-  </b-card>
+      </template>
+
+      <b-card-body>
+        <b-form-input v-model="link.icon" placeholder="icon" class="mb-3">
+        </b-form-input>
+        <b-form-input v-model="link.link" placeholder="https://mylink.com">
+        </b-form-input>
+      </b-card-body>
+
+      <template #footer>
+          <b-input-group>
+            <b-form-input v-model="link.name" placeholder="name">
+            </b-form-input>
+            <b-button type='submit' variant="success" @click="save">Save</b-button>
+          </b-input-group>
+      </template>
+    </b-card>
+  </b-col>
 </template>
 
 <script>
