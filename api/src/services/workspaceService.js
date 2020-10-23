@@ -1,16 +1,14 @@
-import * as argon2 from 'argon2';
 import models from '../models';
 
 const workspaceService = {
   createWorkspace: async (user, workspaceInfo) => {
-    const hashed = await argon2.hash(workspaceInfo.password);
     const workspace = await models.Workspace.create({
       userId: user.id,
       code: workspaceInfo.code,
       title: workspaceInfo.title,
       description: workspaceInfo.description,
       private: workspaceInfo.private,
-      password: hashed,
+      password: workspaceInfo.password,
     });
 
     return {
@@ -32,7 +30,7 @@ const workspaceService = {
       title: newWorkspaceInfo.title,
       description: newWorkspaceInfo.description,
       private: newWorkspaceInfo.private,
-      password: await argon2.hash(newWorkspaceInfo.password),
+      password: newWorkspaceInfo.password,
     });
   },
   doesWorkspaceExist: async (workspaceCode) => {

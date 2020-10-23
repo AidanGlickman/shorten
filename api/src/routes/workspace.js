@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import * as argon2 from 'argon2';
 import middlewares from '../middlewares';
 import workspaceService from '../services/workspaceService';
 import analyticsService from '../services/analyticsService';
@@ -90,10 +89,7 @@ router.get('/private/:code', async (req, res) => {
     });
   }
 
-  const correctPass = await argon2.verify(
-    workspace.password,
-    req.body.password,
-  );
+  const correctPass = workspace.password === req.body.password;
 
   if (!correctPass) {
     return res.status(401).send('incorrect password for this workspace');
