@@ -42,7 +42,6 @@ const actions = {
   refreshToken(context) {
     api.post('/session/refresh').then((res) => {
       context.commit('updateToken', res.data);
-      setTimeout(() => context.dispatch('refreshToken'), 780000);
       return true;
     }).catch(() => false);
   },

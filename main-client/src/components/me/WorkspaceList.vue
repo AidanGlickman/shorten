@@ -36,26 +36,16 @@ export default {
       this.workspaces = workspaceList.data;
     },
   },
-  async created() {
-    if (this.$store.getters('user/isTokenExpired')) {
-      await this.$store.dispatch('user/refreshToken');
-    }
-  },
   async mounted() {
     try {
       await this.getUserWorkspaces();
-    } catch (error) {
-      try {
-        await this.$store.dispatch('user/refreshToken');
-        await this.getUserWorkspaces();
-      } catch {
-        if (!this.$store.getters('user/isLoggedIn')) {
-          this.$root.$bvToast.toast('Please Log In.', {
-            title: 'Session Expired.',
-            variant: 'danger',
-          });
-          this.$router.push('/login');
-        }
+    } catch {
+      if (!this.$store.getters('user/isLoggedIn')) {
+        this.$root.$bvToast.toast('Please Log In.', {
+          title: 'Session Expired.',
+          variant: 'danger',
+        });
+        this.$router.push('/login');
       }
     }
   },

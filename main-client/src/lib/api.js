@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const [baseURL] = window.location.hostname.split('.').slice(-1);
 
-export default axios.create({
+const api = axios.create({
   baseURL: `http://${baseURL}/api`,
 });
+
+export default api;
