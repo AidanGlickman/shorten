@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="info" class="mb-5">
+  <b-navbar toggleable="lg" type="dark" variant="primary" class="mb-5">
     <b-container>
       <b-navbar-brand to="/">srn.pw</b-navbar-brand>
 

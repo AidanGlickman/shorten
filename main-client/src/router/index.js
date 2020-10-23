@@ -6,6 +6,7 @@ import About from '@/views/About.vue';
 import Auth from '@/views/auth/Auth.vue';
 import Verify from '@/views/auth/Verify.vue';
 import Reset from '@/views/auth/Reset.vue';
+import Edit from '@/views/Edit.vue';
 
 Vue.use(VueRouter);
 
@@ -49,6 +50,11 @@ const routes = [
     path: '/me',
     name: 'Me',
     component: Me,
+  },
+  {
+    path: '/edit/:code',
+    name: 'Edit',
+    component: Edit,
   },
 ];
 
