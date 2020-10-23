@@ -62,7 +62,7 @@ export default {
     async save(evt) {
       evt.preventDefault();
       try {
-        await api.post(`link/${this.workspaceCode}/${this.type === 'new' ? 'create' : this.link.code}`,
+        await api.post(`link/${this.workspaceCode}/${this.type === 'new' ? 'create' : this.origLink.code}`,
           this.link);
         this.$root.$bvToast.toast(`${this.link.code} has been ${this.type === 'new' ? 'created' : 'updated'}`, {
           title: `Link ${this.type === 'new' ? 'Created' : 'Updated'}`,
@@ -70,8 +70,8 @@ export default {
           autoHideDelay: 5000,
           appendToast: true,
         });
+        this.$emit('update');
         if (this.type === 'new') {
-          this.$emit('new-link');
           this.link.code = '';
           this.link.icon = '';
           this.link.name = '';
@@ -86,13 +86,29 @@ export default {
         });
       }
     },
-    deleteLink(evt) {
+    async deleteLink(evt) {
       evt.preventDefault();
-      api.delete(`link/${this.workspaceCode}/${this.link.code}`);
+      try {
+        await api.delete(`link/${this.workspaceCode}/${this.origLink.code}`);
+        this.$root.$bvToast.toast(`${this.link.code} has been deleted`, {
+          title: 'Link Deleted',
+          variant: 'success',
+          autoHideDelay: 5000,
+          appendToast: true,
+        });
+        this.$emit('update');
+      } catch (err) {
+        this.$bvToast.toast(err.response.data, {
+          title: 'Deleting failed.',
+          variant: 'danger',
+          autoHideDelay: 5000,
+          appendToast: true,
+        });
+      }
     },
   },
   mounted() {
-    this.link = this.origLink;
+    this.link = { ...this.origLink };
   },
 };
 </script>

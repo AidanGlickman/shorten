@@ -4,7 +4,7 @@
         :workspaceCode="workspaceCode"
         :origLink="{}"
         type="new"
-        @new-link="$emit('new-link')"
+        @update="$emit('update')"
       ></LinkCard>
       <LinkCard
         v-for="link in links"
@@ -12,6 +12,7 @@
         :origLink="link"
         :workspaceCode="workspaceCode"
         type="existing"
+        @update="$emit('update')"
       ></LinkCard>
   </b-row>
 </template>

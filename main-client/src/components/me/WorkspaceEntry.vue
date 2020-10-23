@@ -1,5 +1,10 @@
 <template>
-  <b-col xs=12 md="6" lg="4" class="mb-3">
+  <b-col
+    xs=12
+    :md="context === 'full' ? '12' : '6'"
+    :lg="context === 'full' ? '12' : '4'"
+    class="mb-3"
+  >
     <b-card header-tag="header" footer-tag="footer">
       <template #header>
         <b-input-group>
@@ -80,11 +85,12 @@ export default {
   props: {
     origWorkspace: Object,
     type: String,
+    context: String,
   },
   methods: {
     async deleteWorkspace() {
       try {
-        await api.delete(`workspace/${this.workspace.code}`);
+        await api.delete(`workspace/${this.origWorkspace.code}`);
         this.$emit('updated');
         this.$root.$bvToast.toast(`Successfully deleted ${this.workspace.code}`, {
           title: 'Workspace Deleted',
@@ -105,7 +111,7 @@ export default {
     async updateWorkspace(evt) {
       evt.preventDefault();
       try {
-        await api.post(`workspace/${this.type === 'new' ? 'create' : `${this.workspace.code}`}`,
+        await api.post(`workspace/${this.type === 'new' ? 'create' : `${this.origWorkspace.code}`}`,
           this.workspace);
 
         this.$root.$bvToast.toast(`${this.workspace.code} has been ${this.type === 'new' ? 'created' : 'updated'}`, {
@@ -114,8 +120,8 @@ export default {
           autoHideDelay: 5000,
           appendToast: true,
         });
+        this.$emit('updated');
         if (this.type === 'new') {
-          this.$emit('updated');
           this.workspace.code = '';
           this.workspace.title = '';
           this.workspace.description = '';
@@ -136,7 +142,7 @@ export default {
     },
   },
   mounted() {
-    this.workspace = this.origWorkspace;
+    this.workspace = { ...this.origWorkspace };
   },
 };
 </script>
