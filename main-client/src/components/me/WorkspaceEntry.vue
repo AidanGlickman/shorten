@@ -48,8 +48,9 @@
           <b-button variant="success" @click="updateWorkspace" class="mr-3">Create</b-button>
         </b-row>
         <b-row v-else class="justify-content-md-center">
+          <b-button variant="success" @click="updateWorkspace" class="mr-3">Save</b-button>
           <b-button variant="info" :href="`https://${workspace.code}.srn.pw/`" target="_blank" class="mr-3">Preview</b-button>
-          <b-button variant="success" :to="`/edit/${workspace.code}`" class="mr-3">Edit</b-button>
+          <b-button variant="warning" :to="`/edit/${workspace.code}`" class="mr-3">Edit</b-button>
         </b-row>
       </template>
     </b-card>
