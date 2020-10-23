@@ -13,7 +13,7 @@
         :workspaceCode="workspaceCode"
         type="existing"
       ></LinkCard>
-  </b-row >
+  </b-row>
 </template>
 
 <script>
