@@ -1,10 +1,24 @@
 <template>
-  <div>Me!</div>
+  <div>
+    <h1>Welcome, {{this.user.username}}</h1>
+    <WorkspaceList></WorkspaceList>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import WorkspaceList from '@/components/me/WorkspaceList.vue';
+
 export default {
   name: 'Me',
+  components: {
+    WorkspaceList,
+  },
+  computed: {
+    ...mapState({
+      user: 'user',
+    }),
+  },
 };
 </script>
 
