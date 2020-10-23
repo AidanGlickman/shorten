@@ -7,6 +7,7 @@ import Auth from '@/views/auth/Auth.vue';
 import Verify from '@/views/auth/Verify.vue';
 import Reset from '@/views/auth/Reset.vue';
 import Edit from '@/views/Edit.vue';
+import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -62,6 +63,15 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (['/edit', '/me'].includes(to.path)) {
+    if (!store.getters['user/isLoggedIn']) next({ path: '/login' });
+    else next();
+  } else {
+    next();
+  }
 });
 
 export default router;

@@ -1,10 +1,14 @@
 <template>
   <div>
     <WorkspaceEntry
-      type="existing"
       context="full"
       :origWorkspace="workspaceData"
-    ></WorkspaceEntry>
+      type="existing"
+      @updated="getInfo"
+      @updated-code="updateCode"
+      :key="workspaceData.code"
+    >
+    </WorkspaceEntry>
     <h2>Links:</h2>
     <LinkCardContainer
       :links="links"
@@ -39,9 +43,17 @@ export default {
         this.workspaceData = workspace;
         this.links = links;
       } catch (err) {
-        console.log(err);
-        this.$root.$bvToast.toast(err.response.data);
+        this.$root.$bvToast.toast(err.response.data, {
+          title: 'Could Not Fetch Workspace.',
+          variant: 'danger',
+          autoHideDelay: 5000,
+          appendToast: true,
+        });
+        this.$router.push('/me');
       }
+    },
+    updateCode(newCode) {
+      this.$router.push(`/edit/${newCode}`);
     },
   },
   async mounted() {

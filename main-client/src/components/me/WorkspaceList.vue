@@ -48,6 +48,8 @@ export default {
         this.$root.$bvToast.toast('Please Log In.', {
           title: 'Session Expired.',
           variant: 'danger',
+          autoHideDelay: 5000,
+          appendToast: true,
         });
         this.$router.push('/login');
       }

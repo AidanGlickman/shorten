@@ -55,7 +55,12 @@
         <b-row v-else class="justify-content-md-center">
           <b-button variant="success" @click="updateWorkspace" class="mr-3">Save</b-button>
           <b-button variant="info" :href="`https://${workspace.code}.srn.pw/`" target="_blank" class="mr-3">Preview</b-button>
-          <b-button variant="warning" :to="`/edit/${workspace.code}`" class="mr-3">Edit</b-button>
+          <b-button
+            v-if="context !== 'full'"
+            variant="warning"
+            :to="`/edit/${workspace.code}`"
+            class="mr-3"
+          >Edit</b-button>
         </b-row>
       </template>
     </b-card>
@@ -115,11 +120,14 @@ export default {
           this.workspace);
 
         this.$root.$bvToast.toast(`${this.workspace.code} has been ${this.type === 'new' ? 'created' : 'updated'}`, {
-          title: `Link ${this.type === 'new' ? 'Created' : 'Updated'}`,
+          title: `Workspace ${this.type === 'new' ? 'Created' : 'Updated'}`,
           variant: 'success',
           autoHideDelay: 5000,
           appendToast: true,
         });
+        if (this.workspace.code !== this.origWorkspace.code && this.context === 'full') {
+          this.$emit('updated-code', this.workspace.code);
+        }
         this.$emit('updated');
         if (this.type === 'new') {
           this.workspace.code = '';
