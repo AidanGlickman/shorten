@@ -3,6 +3,7 @@ import middlewares from '../middlewares';
 import workspaceService from '../services/workspaceService';
 import linkService from '../services/linkService';
 import analyticsService from '../services/analyticsService';
+import validUrl from '../helpers/validUrl';
 
 const router = Router({ mergeParams: true });
 
@@ -24,6 +25,10 @@ router.post(
       name: req.body.name,
       icon: req.body.icon,
     };
+
+    if (!validUrl(linkInfo.link)) {
+      return res.status(422).send('invalid url format');
+    }
 
     let result;
     try {
@@ -71,6 +76,11 @@ router.post(
       name: req.body.name,
       icon: req.body.icon,
     };
+
+    if (!validUrl(newLinkInfo.link)) {
+      return res.status(422).send('invalid url format');
+    }
+
     let result;
     try {
       result = await linkService.editLink(
