@@ -5,18 +5,21 @@
       footer-tag="footer"
     >
       <template #header>
-        <b-input-group>
-        <b-input-group-prepend>
-          <b-button
-            v-if="type !== 'new'"
-            variant="danger"
-            @click="deleteLink"
-          ><i class="lni lni-trash"></i></b-button>
-          <b-input-group-text>{{workspaceCode}}.srn.pw/</b-input-group-text>
-        </b-input-group-prepend>
-          <b-form-input v-model="link.code" placeholder="code">
-          </b-form-input>
-        </b-input-group>
+        <b-form @submit="save">
+          <b-input-group>
+            <b-input-group-prepend>
+              <b-button
+                v-if="type !== 'new'"
+                variant="danger"
+                @click="deleteLink"
+              ><i class="lni lni-trash"></i></b-button>
+              <b-input-group-text>{{workspaceCode}}.srn.pw/</b-input-group-text>
+            </b-input-group-prepend>
+
+            <b-form-input v-model="link.code" placeholder="code">
+            </b-form-input>
+          </b-input-group>
+        </b-form>
       </template>
 
       <b-card-body>
@@ -31,6 +34,7 @@
       </b-card-body>
 
       <template #footer>
+        <b-form @submit="save">
           <b-input-group>
             <b-form-input v-model="link.name" placeholder="name">
             </b-form-input>
@@ -41,6 +45,7 @@
               :disabled="$v.$invalid"
             >Save</b-button>
           </b-input-group>
+        </b-form>
       </template>
     </b-card>
   </b-col>
