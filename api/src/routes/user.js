@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import userService from '../services/userService';
 import workspaceService from '../services/workspaceService';
+import validPassword from '../helpers/validPassword';
 import models from '../models';
 
 const router = Router();
@@ -47,6 +48,9 @@ router.post('/', async (req, res) => {
     email: req.body.email,
     password: req.body.password,
   };
+
+  if (!validPassword(newInfo.password)) { return res.status(422).send('Invalid Password.'); }
+
   try {
     return res.send(await userService.changeUserInfo(req.currentUser, newInfo));
   } catch (error) {

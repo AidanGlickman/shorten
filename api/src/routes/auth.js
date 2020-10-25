@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import Sequelize from 'sequelize';
 import authService from '../services/authService';
+import validPassword from '../helpers/validPassword';
 
 const router = Router();
 
@@ -8,6 +9,7 @@ router.post('/register', async (req, res) => {
   const { email } = req.body;
   const { username } = req.body;
   const { password } = req.body;
+  if (!validPassword(password)) { return res.status(422).send('Invalid password.'); }
   let response;
   try {
     response = await authService.register(email, password, username);
