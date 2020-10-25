@@ -1,33 +1,41 @@
 <template>
   <b-form @submit="onSubmit">
-        <b-form-group
+    <b-form-group
       id="email-group"
       label="Email"
       label-for="email-input"
+      invalid-feedback="Please enter a valid email"
+      :state="!$v.user.email.$invalid"
     >
       <b-form-input
         id="email-input"
         v-model="user.email"
         required
         placeholder="me@email.com"
+        :state="user.email === '' ? null : !$v.user.email.$invalid"
       ></b-form-input>
     </b-form-group>
     <b-form-group
       id="user-group"
       label="Username"
       label-for="user-input"
+      invalid-feedback="Required"
+      :state="!$v.user.username.$invalid"
     >
       <b-form-input
         id="user-input"
         v-model="user.username"
         required
         placeholder="username"
+        :state="user.username === '' ? null : !$v.user.username.$invalid"
       ></b-form-input>
     </b-form-group>
     <b-form-group
       id="pass-group"
       label="Password"
       label-for="pass-input"
+      invalid-feedback="Password must be at least 7 characters and contain at least 1 number"
+      :state="!$v.user.password.$invalid"
     >
       <b-form-input
         id="pass-input"
@@ -35,12 +43,15 @@
         type="password"
         required
         placeholder="password"
+        :state="user.password === '' ? null : !$v.user.password.$invalid"
       ></b-form-input>
     </b-form-group>
     <b-form-group
       id="pass-confirm-group"
       label="Confirm Password"
       label-for="pass-confirm-input"
+      invalid-feedback="Must match above password"
+      :state="!$v.user.passwordConfirm.$invalid"
     >
       <b-form-input
         id="pass-confirm-input"
@@ -48,26 +59,31 @@
         type="password"
         required
         placeholder="password"
+        :state="user.passwordConfirm === '' ? null : !$v.user.passwordConfirm.$invalid"
       ></b-form-input>
     </b-form-group>
-    <b-button
-      type="submit"
-      variant="primary"
-      :disabled="$v.$invalid || !user.verified"
-    >Submit</b-button>
-    <vue-recaptcha
-      :sitekey="recaptchaSite"
-      :loadRecaptchaScript="true"
-      @verify="onVerify"
-      @expired="onExpire"
-    >
-    </vue-recaptcha>
+    <b-row>
+      <vue-recaptcha
+        :sitekey="recaptchaSite"
+        :loadRecaptchaScript="true"
+        @verify="onVerify"
+        @expired="onExpire"
+      >
+      </vue-recaptcha>
+      <b-button
+        type="submit"
+        variant="primary"
+        :disabled="$v.$invalid || !user.verified"
+      >Submit</b-button>
+    </b-row>
   </b-form>
 </template>
 
 <script>
 import VueRecaptcha from 'vue-recaptcha';
-import { required, email, sameAs } from 'vuelidate/lib/validators';
+import {
+  required, email, sameAs, minLength,
+} from 'vuelidate/lib/validators';
 import api from '@/lib/api';
 
 export default {
@@ -96,6 +112,8 @@ export default {
       },
       password: {
         required,
+        minLength: minLength(7),
+        oneNum: (pass) => (/\d/.test(pass)),
       },
       passwordConfirm: {
         required,

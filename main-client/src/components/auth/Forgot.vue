@@ -5,6 +5,8 @@
       label="Username"
       label-for="user-input"
       description="use either your username or email."
+      invalid-feedback="required"
+      :state="!$v.user.username.$invalid"
     >
       <b-form-input
         id="user-input"
@@ -13,12 +15,13 @@
         placeholder="username"
       ></b-form-input>
     </b-form-group>
-    <b-button type="submit" variant="primary">Reset Password</b-button>
+    <b-button type="submit" variant="primary" :disabled="$v.$invalid">Reset Password</b-button>
   </b-form>
 </template>
 
 <script>
 import api from '@/lib/api';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   name: 'Forgot',
@@ -28,6 +31,13 @@ export default {
         username: '',
       },
     };
+  },
+  validations: {
+    user: {
+      username: {
+        required,
+      },
+    },
   },
   methods: {
     async onSubmit(evt) {

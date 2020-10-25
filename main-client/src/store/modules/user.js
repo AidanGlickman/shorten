@@ -26,18 +26,13 @@ const actions = {
       const res = await api.post('auth/login', {
         username: user.username,
         password: user.password,
-        remember: (user.remember === 'true'),
+        remember: user.remember,
       });
       context.commit('login', res.data);
-      // return { success: true, data: res.data.user.username };
       return { success: true, data: res.data.user.username };
     } catch (err) {
       return { success: false, data: err.response.data };
     }
-    // .then((response) => {
-    //   context.commit('login', response.data);
-    //   return { success: true };
-    // }).catch((error) => ({ success: false, error: error.response.data }));
   },
   refreshToken(context) {
     api.post('/session/refresh').then((res) => {

@@ -5,6 +5,8 @@
       label="Username"
       label-for="user-input"
       description="use either your username or email."
+      invalid-feedback="required"
+      :state="!$v.user.username.$invalid"
     >
       <b-form-input
         id="user-input"
@@ -17,6 +19,8 @@
       id="pass-group"
       label="Password"
       label-for="pass-input"
+      invalid-feedback="required"
+      :state="!$v.user.username.$invalid"
     >
       <b-form-input
         id="pass-input"
@@ -35,17 +39,19 @@
       id="remember-check"
       v-model="user.remember"
       name="checkbox-1"
-      value="true"
-      unchecked-value=""
+      :value="true"
+      :unchecked-value="false"
       switch
     >
     </b-form-checkbox>
     </b-form-group>
-    <b-button type="submit" variant="primary">Submit</b-button>
+    <b-button type="submit" variant="primary" :disabled="$v.$invalid">Submit</b-button>
   </b-form>
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators';
+
 export default {
   name: 'Login',
   data() {
@@ -53,15 +59,24 @@ export default {
       user: {
         username: '',
         password: '',
-        remember: '',
+        remember: false,
       },
     };
+  },
+  validations: {
+    user: {
+      username: {
+        required,
+      },
+      password: {
+        required,
+      },
+    },
   },
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
       const loggedIn = await this.$store.dispatch('user/login', this.user);
-      console.log(loggedIn);
       if (loggedIn.success) {
         this.$root.$bvToast.toast(`Welcome ${loggedIn.data}!`, {
           title: 'Login Success!',
