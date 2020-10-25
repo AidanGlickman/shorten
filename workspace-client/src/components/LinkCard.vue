@@ -1,5 +1,5 @@
 <template>
-  <b-col xs=12 md="6" lg="3" class="mb-3">
+  <b-col xs=12 md="6" lg="3" class="mb-3 text-center">
     <a :href="link.link">
     <b-card header-tag="header" footer-tag="footer">
       <template #header>
