@@ -11,6 +11,7 @@ import WorkspaceList from '@/components/me/WorkspaceList.vue';
 
 export default {
   name: 'Me',
+  title: 'My srn.pw',
   components: {
     WorkspaceList,
   },

@@ -25,6 +25,7 @@ import WorkspaceEntry from '@/components/me/WorkspaceEntry.vue';
 
 export default {
   name: 'Edit',
+  title() { return `Edit ${this.workspaceData.code}.srn.pw`; },
   data() {
     return {
       workspaceData: {},
