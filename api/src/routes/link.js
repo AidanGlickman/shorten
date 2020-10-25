@@ -23,7 +23,7 @@ router.post(
       code: req.body.code,
       link: req.body.link,
       name: req.body.name,
-      icon: req.body.icon,
+      icon: req.body.icon || 'link',
     };
 
     if (!validUrl(linkInfo.link)) {
