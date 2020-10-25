@@ -39,7 +39,7 @@ router.get('/:code', async (req, res) => {
   }
   if (workspace.private) {
     return res.send({
-      code: workspace.code,
+      workspace: { code: workspace.code },
       private: true,
     });
   }
@@ -63,10 +63,11 @@ router.get('/:code', async (req, res) => {
       description: workspace.description,
       links,
     },
+    private: false,
   });
 });
 
-router.get('/private/:code', async (req, res) => {
+router.post('/private/:code', async (req, res) => {
   const workspace = await workspaceService.getWorkspace(req.params.code);
   if (workspace == null) {
     return res.status(404).send('no workspace matching that code');
