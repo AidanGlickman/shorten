@@ -22,7 +22,11 @@
       <b-card-body>
         <b-form-input v-model="link.icon" placeholder="icon" class="mb-3">
         </b-form-input>
-        <b-form-input v-model="link.link" placeholder="https://mylink.com">
+        <b-form-input
+          v-model="link.link"
+          placeholder="https://mylink.com"
+          :state="((type === 'new' && link.link === '') || !$v.saniLink.$invalid) ? null : false"
+          >
         </b-form-input>
       </b-card-body>
 
@@ -30,7 +34,12 @@
           <b-input-group>
             <b-form-input v-model="link.name" placeholder="name">
             </b-form-input>
-            <b-button type='submit' variant="success" @click="save">Save</b-button>
+            <b-button
+              type='submit'
+              variant="success"
+              @click="save"
+              :disabled="$v.$invalid"
+            >Save</b-button>
           </b-input-group>
       </template>
     </b-card>
@@ -38,6 +47,7 @@
 </template>
 
 <script>
+import { required, url } from 'vuelidate/lib/validators';
 import api from '@/lib/api';
 import '@/assets/css/LineIcons.css';
 
@@ -53,17 +63,39 @@ export default {
       },
     };
   },
+  computed: {
+    saniLink() {
+      if (this.link.link.split('://').length < 2) {
+        return `https://${this.link.link}`;
+      } return this.link.link;
+    },
+  },
   props: {
     workspaceCode: String,
     type: String,
     origLink: Object,
   },
+  validations: {
+    link: {
+      code: {
+        required,
+      },
+      link: {
+        required,
+      },
+    },
+    saniLink: {
+      url,
+    },
+  },
   methods: {
     async save(evt) {
       evt.preventDefault();
       try {
+        const newLink = { ...this.link };
+        newLink.link = this.saniLink;
         await api.post(`link/${this.workspaceCode}/${this.type === 'new' ? 'create' : this.origLink.code}`,
-          this.link);
+          newLink);
         this.$root.$bvToast.toast(`${this.link.code} has been ${this.type === 'new' ? 'created' : 'updated'}`, {
           title: `Link ${this.type === 'new' ? 'Created' : 'Updated'}`,
           variant: 'success',

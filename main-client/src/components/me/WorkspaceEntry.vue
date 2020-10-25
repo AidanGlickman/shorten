@@ -7,19 +7,27 @@
   >
     <b-card header-tag="header" footer-tag="footer">
       <template #header>
-        <b-input-group>
-          <b-input-group-prepend>
-          <b-button
-            v-if="type !== 'new'"
-            variant="danger"
-            @click="deleteWorkspace"
-          ><i class="lni lni-trash"></i></b-button>
-        </b-input-group-prepend>
-          <b-form-input v-model="workspace.code" placeholder="code"></b-form-input>
-          <b-input-group-append>
-            <b-input-group-text>.srn.pw</b-input-group-text>
-          </b-input-group-append>
-        </b-input-group>
+        <b-form @submit="updateWorkspace">
+          <b-input-group>
+            <b-input-group-prepend>
+            <b-button
+              v-if="type !== 'new'"
+              variant="danger"
+              @click="deleteWorkspace"
+            ><i class="lni lni-trash"></i></b-button>
+          </b-input-group-prepend>
+
+            <b-form-input
+              v-model="workspace.code"
+              placeholder="code"
+              :state="(type === 'new' || !$v.workspace.code.$invalid) ? null : false"
+              ></b-form-input>
+
+            <b-input-group-append>
+              <b-input-group-text>.srn.pw</b-input-group-text>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form>
       </template>
       <b-card-body>
         <b-form-input v-model="workspace.title" placeholder="title" class="mb-3">
@@ -53,7 +61,12 @@
           <b-button variant="success" @click="updateWorkspace" class="mr-3">Create</b-button>
         </b-row>
         <b-row v-else class="justify-content-md-center">
-          <b-button variant="success" @click="updateWorkspace" class="mr-3">Save</b-button>
+          <b-button
+            variant="success"
+            @click="updateWorkspace"
+            class="mr-3"
+            :disabled="$v.$invalid"
+          >Save</b-button>
           <b-button variant="info" :href="`https://${workspace.code}.srn.pw/`" target="_blank" class="mr-3">Preview</b-button>
           <b-button
             v-if="context !== 'full'"
@@ -69,6 +82,7 @@
 
 <script>
 import api from '@/lib/api';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   name: 'WorkspaceEntry',
@@ -83,6 +97,13 @@ export default {
       },
       viewPass: false,
     };
+  },
+  validations: {
+    workspace: {
+      code: {
+        required,
+      },
+    },
   },
   computed: {
     passVariant() { return (this.viewPass ? 'smile' : 'cool'); },
