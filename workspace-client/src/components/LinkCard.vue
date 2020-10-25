@@ -9,7 +9,7 @@
       <b-card-body>
         <i :class="`lni lni-32 lni-${link.icon}`"></i>
         <br>
-        {{link.link}}
+        <span class="nowrap">{{link.link}}</span>
       </b-card-body>
 
       <template #footer>
@@ -33,4 +33,7 @@ export default {
 </script>
 
 <style>
+.nowrap {
+  white-space: nowrap;
+}
 </style>

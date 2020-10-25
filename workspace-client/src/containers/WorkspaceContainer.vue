@@ -43,6 +43,20 @@ export default {
           this.showPassModal = true;
         } else {
           this.workspace = response.workspace;
+          const [, linkCode] = window.location.pathname.split('/');
+          if (linkCode !== '') {
+            const link = this.workspace.links.find((el) => el.code === linkCode);
+            if (link) {
+              window.location = link.link;
+            } else {
+              this.$bvToast.toast(`No link exists with code ${linkCode} on this workspace.`, {
+                title: 'No such link.',
+                variant: 'danger',
+                autoHideDelay: 5000,
+                appendToast: true,
+              });
+            }
+          }
         }
       })
       .catch((err) => {
