@@ -21,9 +21,9 @@
           name="Login"
         ></HomeLinkCard>
         <HomeLinkCard
-          code="register"
+          code="signup"
           icon="add-files"
-          name="Register"
+          name="Sign Up"
         ></HomeLinkCard>
       </template>
     </b-row>
