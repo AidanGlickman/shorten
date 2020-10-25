@@ -47,6 +47,7 @@
             v-model="workspace.password"
             placeholder="password"
             :type="viewPass ? 'text' : 'password'"
+            :disabled="!workspace.private"
           ></b-form-input>
           <b-input-group-append>
             <b-button
