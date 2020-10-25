@@ -30,7 +30,7 @@ const linkService = {
   editLink: async (workspaceCode, linkCode, newLinkInfo) => {
     const link = await getLink(workspaceCode, linkCode);
     const currLink = await getLink(workspaceCode, newLinkInfo.code);
-    if (currLink) {
+    if (currLink && link.id !== currLink.id) {
       throw new Error('Link with this code in this workspace already exists.');
     }
     return link.update({
