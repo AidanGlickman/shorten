@@ -9,6 +9,7 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
+          <b-nav-item to="/about">About</b-nav-item>
 
           <template v-if="!isLoggedIn">
             <b-nav-item to="/login">Login</b-nav-item>
