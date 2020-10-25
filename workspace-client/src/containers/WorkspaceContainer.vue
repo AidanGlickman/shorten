@@ -1,23 +1,21 @@
 <template>
   <div>
-    <code>{{ this.code }}.srn.pw</code>
+    <code>{{ code }}.srn.pw</code>
     <div v-if="this.workspace">
-      <h1>{{ this.workspace.title }}</h1>
-      <h2>{{ this.workspace.description }}</h2>
+      <h1>{{ workspace.title }}</h1>
+      <h2>{{ workspace.description }}</h2>
       <LinksContainer
-        v-if="this.fetched"
-        :links="this.workspace.links"
-        :workspaceCode="this.workspace.code"
+        :links="workspace.links"
+        :workspaceCode="workspace.code"
       ></LinksContainer>
     </div>
-    <div v-if="this.error">
-      {{ this.error }}
-    </div>
+    <PasswordModal :show="showPassModal" @privatePassword="privatePass"></PasswordModal>
   </div>
 </template>
 
 <script>
 import LinksContainer from '@/containers/LinksContainer.vue';
+import PasswordModal from '@/components/PasswordModal.vue';
 
 export default {
   name: 'WorkspaceContainer',
@@ -26,12 +24,13 @@ export default {
   },
   components: {
     LinksContainer,
+    PasswordModal,
   },
   data() {
     return {
       workspace: null,
-      error: false,
-      fetched: false,
+      showPassModal: false,
+      password: '',
     };
   },
   mounted() {
@@ -39,13 +38,33 @@ export default {
     this.$api
       .get(`workspace/${this.code}`)
       .then((res) => {
-        this.workspace = res.data.workspace;
-        this.fetched = true;
+        const response = res.data;
+        if (response.private) {
+          this.showPassModal = true;
+        } else {
+          this.workspace = response.workspace;
+        }
       })
       .catch((err) => {
         console.log(err.response);
         this.error = err.response.data;
       });
+  },
+  methods: {
+    async privatePass(password) {
+      try {
+        const workspace = await this.$api.post(`workspace/private/${this.code}`, { password });
+        this.workspace = workspace.data.workspace;
+        this.showPassModal = false;
+      } catch (err) {
+        this.$bvToast.toast(err.response.data, {
+          title: 'Failed to get workspace.',
+          variant: 'danger',
+          autoHideDelay: 5000,
+          appendToast: true,
+        });
+      }
+    },
   },
 };
 </script>
