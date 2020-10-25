@@ -1,1 +1,1 @@
-export default (password) => (password.length > 7 && (/\d/.test(password)));
+export default (password) => (password.length >= 7 && (/\d/.test(password)));
