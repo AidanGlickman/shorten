@@ -9,7 +9,11 @@
       <b-card-body>
         <i :class="`lni lni-32 lni-${link.icon}`"></i>
         <br>
-        <span class="nowrap">{{link.link}}</span>
+        <span class="nowrap" :id="`${_uid}_linkText`">{{link.link}}</span>
+        <b-popover :target="`${_uid}_linkText`" triggers="hover" placement="bottom">
+          <template #title>Full Link</template>
+          {{link.link}}
+        </b-popover>
       </b-card-body>
 
       <template #footer>
@@ -35,5 +39,9 @@ export default {
 <style>
 .nowrap {
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: inline-block;
 }
 </style>
