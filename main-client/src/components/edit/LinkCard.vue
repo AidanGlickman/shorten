@@ -12,7 +12,7 @@
                 v-if="type !== 'new'"
                 variant="danger"
                 @click="deleteLink"
-              ><i class="lni lni-trash"></i></b-button>
+              ><i class="lnir lnir-trash"></i></b-button>
               <b-input-group-text>{{workspaceCode}}.srn.pw/</b-input-group-text>
             </b-input-group-prepend>
 
@@ -22,9 +22,13 @@
         </b-form>
       </template>
 
-      <b-card-body>
-        <b-form-input v-model="link.icon" placeholder="icon" class="mb-3">
-        </b-form-input>
+      <b-card-body class="text-center">
+        <!-- <b-form-input v-model="link.icon" placeholder="icon" class="mb-3">
+        </b-form-input> -->
+        <b-button variant="outline-primary" @click="$bvModal.show(`${_uid}_iconPicker`)">
+          <i :class="`lnir lnir-32 lnir-${link.icon || 'link'}`"></i>
+        </b-button>
+        <PickerModal :id="`${_uid}_iconPicker`"></PickerModal>
         <b-form-input
           v-model="link.link"
           placeholder="https://mylink.com"
@@ -54,10 +58,14 @@
 <script>
 import { required, url } from 'vuelidate/lib/validators';
 import api from '@/lib/api';
+import PickerModal from './iconPicker/PickerModal.vue';
 import '@/assets/css/LineIcons.css';
 
 export default {
   name: 'LinkCard',
+  components: {
+    PickerModal,
+  },
   data() {
     return {
       link: {
@@ -66,10 +74,12 @@ export default {
         name: '',
         link: '',
       },
+      showPicker: false,
     };
   },
   computed: {
     saniLink() {
+      if (!this.link.link) { return ''; }
       if (this.link.link.split('://').length < 2) {
         return `https://${this.link.link}`;
       } return this.link.link;

@@ -7,7 +7,7 @@
         </template>
 
         <b-card-body>
-          <i :class="`lni lni-32 lni-${icon}`"></i>
+          <i :class="`lnir lnir-32 lnir-${icon}`"></i>
         </b-card-body>
 
         <template #footer>

@@ -14,7 +14,7 @@
               v-if="type !== 'new'"
               variant="danger"
               @click="deleteWorkspace"
-            ><i class="lni lni-trash"></i></b-button>
+            ><i class="lnir lnir-trash"></i></b-button>
           </b-input-group-prepend>
 
             <b-form-input
@@ -53,7 +53,7 @@
             <b-button
               variant="info"
               @click="togglePass"
-            ><i :class="`lni lni-emoji-${passVariant}`"></i></b-button>
+            ><i :class="`lnir lnir-emoji-${passVariant}`"></i></b-button>
           </b-input-group-append>
         </b-input-group>
       </b-card-body>

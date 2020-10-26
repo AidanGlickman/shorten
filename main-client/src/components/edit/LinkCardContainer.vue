@@ -2,6 +2,7 @@
   <b-row>
       <LinkCard
         :workspaceCode="workspaceCode"
+        key="newLink"
         :origLink="{}"
         type="new"
         @update="$emit('update')"

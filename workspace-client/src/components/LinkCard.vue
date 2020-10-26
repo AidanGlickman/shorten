@@ -7,7 +7,7 @@
       </template>
 
       <b-card-body>
-        <i :class="`lni lni-32 lni-${link.icon}`"></i>
+        <i :class="`lnir lnir-32 lnir-${link.icon}`"></i>
         <br>
         <span class="nowrap" :id="`${_uid}_linkText`">{{link.link}}</span>
         <b-popover :target="`${_uid}_linkText`" triggers="hover" placement="bottom">
