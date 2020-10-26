@@ -28,11 +28,14 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use((response) => response, (error) => {
   const status = error.response ? error.response.status : null;
   const newReq = error;
+  console.log(newReq);
   if (status === 498) {
     return vuexStore.dispatch('user/refreshToken').then(() => {
       newReq.config.headers.Authorization = `Bearer ${vuexStore.state.user.token}`;
       newReq.config.baseURL = undefined;
       return api.request(newReq.config);
+    }).catch((err) => {
+      Promise.reject(err);
     });
   }
 
