@@ -132,7 +132,7 @@ export default {
           autoHideDelay: 5000,
           appendToast: true,
         });
-        this.$router.push('');
+        this.$router.push('/');
       } catch (err) {
         this.$bvToast.toast(err.response.data, {
           title: 'Signup Failed',
