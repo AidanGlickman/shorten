@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
+import Cookies from 'js-cookie';
 import api from '@/lib/api';
 import user from './modules/user';
 
@@ -28,15 +29,15 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use((response) => response, (error) => {
   const status = error.response ? error.response.status : null;
   const newReq = error;
-  console.log(newReq);
   if (status === 498) {
-    return vuexStore.dispatch('user/refreshToken').then(() => {
-      newReq.config.headers.Authorization = `Bearer ${vuexStore.state.user.token}`;
-      newReq.config.baseURL = undefined;
-      return api.request(newReq.config);
-    }).catch((err) => {
-      Promise.reject(err);
-    });
+    if (Cookies.get('refresh')) {
+      return vuexStore.dispatch('user/refreshToken').then(() => {
+        newReq.config.baseURL = undefined;
+        return api.request(newReq.config);
+      }).catch((err) => {
+        Promise.reject(err);
+      });
+    } vuexStore.commit('user/logout');
   }
 
   return Promise.reject(error);
