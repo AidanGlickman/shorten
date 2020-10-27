@@ -25,10 +25,18 @@
       <b-card-body class="text-center">
         <!-- <b-form-input v-model="link.icon" placeholder="icon" class="mb-3">
         </b-form-input> -->
-        <b-button variant="outline-primary" @click="$bvModal.show(`${_uid}_iconPicker`)">
+        <b-button
+          variant="outline-primary"
+          class="mb-3"
+          @click="$bvModal.show(`${_uid}_iconPicker`)"
+        >
           <i :class="`lnir lnir-32 lnir-${link.icon || 'link'}`"></i>
         </b-button>
-        <PickerModal :id="`${_uid}_iconPicker`"></PickerModal>
+        <PickerModal
+          :id="`${_uid}_iconPicker`"
+          :oldIcon="link.icon"
+          @new-icon="newIcon"
+        ></PickerModal>
         <b-form-input
           v-model="link.link"
           placeholder="https://mylink.com"
@@ -104,6 +112,9 @@ export default {
     },
   },
   methods: {
+    newIcon(icon) {
+      this.link.icon = icon;
+    },
     async save(evt) {
       evt.preventDefault();
       try {

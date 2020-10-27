@@ -3,7 +3,7 @@
       <LinkCard
         :workspaceCode="workspaceCode"
         key="newLink"
-        :origLink="{}"
+        :origLink="{icon: 'link'}"
         type="new"
         @update="$emit('update')"
       ></LinkCard>
