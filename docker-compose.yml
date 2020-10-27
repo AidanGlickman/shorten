@@ -11,7 +11,7 @@ services:
       - "5432:5432"
   redis:
     image: "redis:alpine"
-    command: redis-server --requirepass ${REDIS_PASS}
+    command: redis-server
     ports:
       - "6379:6379"
   gateway:
@@ -54,7 +54,6 @@ services:
       - MAIL_PASS=${MAIL_PASS}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASS=${REDIS_PASS}
       - REDIS_DB=0
     ports:
       - "3000:3000"
