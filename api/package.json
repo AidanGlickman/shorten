@@ -4,8 +4,10 @@
   "description": "Express API for the shorten service",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "build": "rm -rf build && mkdir build && babel -d ./build ./src -s",
+    "start": "node ./build/index.js",
+    "clean": "rm -rf build && mkdir build",
+    "build-api": "babel -d ./build ./src -s",
+    "build": "npm run clean && npm run build-api",
     "dev": "nodemon --exec babel-node src/index.js",
     "lint": "./node_modules/.bin/eslint src/**",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,6 +31,7 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
