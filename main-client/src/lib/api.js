@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-const [baseURL] = window.location.hostname.split('.').slice(-1);
-
 const api = axios.create({
-  baseURL: `http://${baseURL}/api`,
+  baseURL: `http://${process.env.VUE_APP_BASE_URL}/api`,
 });
 
 export default api;
