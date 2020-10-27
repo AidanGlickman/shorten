@@ -1,0 +1,7 @@
+dispatch:
+- url: "*.srn.pw"
+  service: workspace-client
+- url: "srn.pw/api/*"
+  service: api
+- url: "srn.pw/*"
+  service: default
