@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <h1 class="mb-3">Welcome to srn.pw!</h1>
+    <h1 class="mb-3">Welcome to srn.pw! (BETA!)</h1>
     <b-row class="justify-content-md-center">
       <HomeLinkCard
         code="about"
