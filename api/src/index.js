@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import device from 'express-device';
+import 'regenerator-runtime/runtime';
 import routes from './routes';
 import middlewares from './middlewares';
 
@@ -37,6 +38,7 @@ app.use(
   routes.user,
 );
 app.use('/session', routes.session);
+app.get('/', (req, res) => res.send('Hello!'));
 
 sequelize.sync({ alter: process.env.NODE_ENV === 'development' }).then(() => {
   const listPort = process.env.PORT || 3000;
