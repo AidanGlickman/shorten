@@ -64,7 +64,7 @@
     </b-form-group>
     <b-row>
       <vue-recaptcha
-        :sitekey="recaptchaSite"
+        sitekey="6LehitkZAAAAANvI4D5JcfoElpbiL1Yee3rVC3Vt"
         :loadRecaptchaScript="true"
         @verify="onVerify"
         @expired="onExpire"
@@ -97,7 +97,6 @@ export default {
         passwordConfirm: '',
         verified: false,
       },
-      recaptchaSite: '',
     };
   },
   components: { VueRecaptcha },
@@ -150,9 +149,6 @@ export default {
     onExpire() {
       this.user.verified = false;
     },
-  },
-  created() {
-    this.recaptchaSite = process.env.VUE_APP_GRECAPTCHA_SITE;
   },
 };
 </script>
