@@ -18,7 +18,8 @@ spec:
     - host: '*.srn.pw'
       http:
         paths:
-          - backend:
+          - path: /?(.*)
+            backend:
               serviceName: workspace-client-cluster-ip
               servicePort: 8080
     - host: srn.pw
