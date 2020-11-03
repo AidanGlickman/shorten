@@ -12,7 +12,7 @@ spec:
         component: workspace-client
     spec:
       containers:
-      - name: workspace-client-deployment
+      - name: workspace-client
         image: aidang/shorten-workspace-client
         ports:
         - containerPort: 8080

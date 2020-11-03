@@ -12,7 +12,7 @@ spec:
         component: main-client
     spec:
       containers:
-      - name: main-client-deployment
+      - name: main-client
         image: aidang/shorten-main-client
         ports:
         - containerPort: 8080
