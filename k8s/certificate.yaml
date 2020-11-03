@@ -10,7 +10,6 @@ spec:
   commonName: srn.pw
   dnsNames:
     - srn.pw
-    - '*.srn.pw'
   acme:
     config:
       - http01:
