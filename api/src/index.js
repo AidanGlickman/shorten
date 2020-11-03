@@ -43,5 +43,5 @@ app.get('/', (req, res) => res.send('Hello!'));
 sequelize.sync({ alter: process.env.NODE_ENV === 'development' }).then(() => {
   const listPort = process.env.PORT || 3000;
   // eslint-disable-next-line no-console
-  app.listen(listPort, () => console.log(`Siren Paw listening on port ${listPort}!`));
+  app.listen(listPort, () => console.log(`Siren Paw API listening on port ${listPort}!`));
 });
