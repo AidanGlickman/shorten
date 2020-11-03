@@ -20,4 +20,4 @@ WORKDIR "/app"
 COPY package.json .
 RUN npm install
 COPY . .
-CMD ["babel-node", "src/index.js"]
+CMD ["npm", "run", "dev-no-watch"]

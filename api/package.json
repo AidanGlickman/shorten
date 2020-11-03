@@ -8,6 +8,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-api": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-api",
+    "dev-no-watch": "babel-node src/index.js",
     "dev": "nodemon --exec babel-node src/index.js",
     "lint": "./node_modules/.bin/eslint src/**",
     "test": "echo \"Error: no test specified\" && exit 1"
