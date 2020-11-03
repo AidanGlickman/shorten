@@ -14,6 +14,7 @@ RUN npm install
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
+COPY ./dist/index.html ./dist/404.html
 
 # build app for production with minification
 RUN npm run build
