@@ -7,12 +7,14 @@ spec:
   issuerRef: 
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: srn.pw
+  commonName: '*.srn.pw'
   dnsNames:
     - srn.pw
+    - '*.srn.pw'
   acme:
     config:
-      - http01:
-          ingressClass: nginx
+      - dns01:
+          provider: cloudflare
         domains:
           - srn.pw
+          - '*.srn.pw'
