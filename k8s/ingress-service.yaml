@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1beta1
+# UPDATE THE API
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    # ADD THIS LINE ABOVE
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # UPDATE THIS LINE ABOVE
+spec:
+  rules:
+    - host: '*.srn.pw'
+      http:
+        paths:
+          - backend:
+              serviceName: workspace-client-cluster-ip
+              servicePort: 8080
+    - host: srn.pw
+      http:
+        paths:
+          - path: /?(.*)
+          # UPDATE THIS LINE ABOVE
+            backend:
+              serviceName: main-client-cluster-ip
+              servicePort: 8080
+          - path: /api/?(.*)
+          # UPDATE THIS LINE ABOVE
+            backend:
+              serviceName: api-cluster-ip
+              servicePort: 3000

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-client-deployment
+spec:
+  selector:
+    matchLabels:
+      component: main-client
+  template:
+    metadata:
+      labels:
+        component: main-client
+    spec:
+      containers:
+      - name: main-client-deployment
+        image: aidang/shorten-main-client
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: main-client-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    component: main-client
+  ports:
+  - port: 8080
+    targetPort: 8080

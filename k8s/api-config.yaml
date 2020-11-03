@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+    spec:
+      containers:
+      - name: api
+        image: aidang/shorten-api
+        env:
+          - name: PORT
+            value: '3000'
+          - name: JWT_EXPIRE
+            value: '900'
+          - name: REDIS_HOST
+            value: redis-cluster-ip
+          - name: REDIS_PORT
+            value: '6379'
+          - name: REDIS_DB
+            value: '0'
+          - name: MAIL_HOST
+            value: mail.privateemail.com
+          - name: GRECAPTCHA_SITE
+            value: 6LehitkZAAAAANvI4D5JcfoElpbiL1Yee3rVC3Vt
+          - name: DATABASE_HOST
+            value: postgres-cluster-ip
+          - name: DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: database
+          - name: DATABASE_USER
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: username
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: password
+          - name: MAIL_USER
+            valueFrom:
+              secretKeyRef:
+                name: mail-secrets
+                key: username
+          - name: MAIL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: mail-secrets
+                key: password
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secrets
+                key: jwt-secret
+          - name: COOKIE_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: cookie-secrets
+                key: cookie-secret
+          - name: GRECAPTCHA_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: grecaptcha-secrets
+                key: grecaptcha-secret
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    component: api
+  ports:
+  - port: 3000
+    targetPort: 3000
