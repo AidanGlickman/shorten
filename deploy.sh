@@ -12,5 +12,5 @@ docker push aidang/shorten-workspace-client:$GIT_SHA
 
 kubectl apply -f k8s
 kubectl set image deployments/api-deployment api=aidang/shorten-api:$GIT_SHA
-kubectl set image deployments/main-client-deployment api=aidang/shorten-main-client:$GIT_SHA
-kubectl set image deployments/workspace-client-deployment api=aidang/shorten-workspace-client:$GIT_SHA
+kubectl set image deployments/main-client-deployment main-client=aidang/shorten-main-client:$GIT_SHA
+kubectl set image deployments/workspace-client-deployment workspace-client=aidang/shorten-workspace-client:$GIT_SHA
