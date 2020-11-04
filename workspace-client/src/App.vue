@@ -22,6 +22,23 @@ export default {
   },
   created() {
     [this.workspaceCode] = window.location.hostname.split('.');
+    const [, linkCode] = window.location.pathname.split('/');
+    if (linkCode !== '') {
+      this.$api.get(`/link/${this.workspaceCode}/${linkCode}`).then(((res) => {
+        const link = res.data;
+        if (link) {
+          window.location = link.link;
+        } else {
+          this.$bvToast.toast(`No link exists with code ${linkCode} on this workspace.`, {
+            title: 'No such link.',
+            variant: 'danger',
+            autoHideDelay: 5000,
+            appendToast: true,
+          });
+          window.location.pathname = '/';
+        }
+      }));
+    }
   },
 };
 </script>
