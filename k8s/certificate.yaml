@@ -3,18 +3,9 @@ kind: Certificate
 metadata:
   name: srn-pw-tls
 spec:
-  secretName: srn-pw
-  issuerRef: 
+  secretName: srn-pw-tls
+  issuerRef:
     name: letsencrypt-prod
-    kind: Issuer
-  commonName: '*.srn.pw'
   dnsNames:
-    - srn.pw
-    - '*.srn.pw'
-  acme:
-    config:
-      - dns01:
-          provider: cloudflare
-        domains:
-          - srn.pw
-          - '*.srn.pw'
+  - '*.srn.pw'
+  - 'srn.pw'
