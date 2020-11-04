@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="workspace">
     <code>{{ code }}.srn.pw</code>
     <div v-if="this.workspace">
       <h1>{{ workspace.title }}</h1>
@@ -69,4 +69,7 @@ export default {
 </script>
 
 <style>
+  .workspace {
+    margin-bottom: 40px;
+  }
 </style>
