@@ -6,7 +6,7 @@ spec:
   secretName: srn-pw
   issuerRef: 
     name: letsencrypt-prod
-    kind: ClusterIssuer
+    kind: Issuer
   commonName: '*.srn.pw'
   dnsNames:
     - srn.pw
