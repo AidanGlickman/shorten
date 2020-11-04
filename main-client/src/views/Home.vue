@@ -27,6 +27,7 @@
         ></HomeLinkCard>
       </template>
     </b-row>
+    <p>Make and share custom linkbanks!</p>
   </div>
 </template>
 
