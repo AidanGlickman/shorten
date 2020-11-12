@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import middlewares from '../middlewares';
 import workspaceService from '../services/workspaceService';
-import analyticsService from '../services/analyticsService';
+// import analyticsService from '../services/analyticsService';
 import models from '../models';
 
 const router = Router();
@@ -50,11 +50,11 @@ router.get('/:code', async (req, res) => {
     },
   });
 
-  try {
-    analyticsService.attachAnalytic(req, 'workspace', workspace.id);
-  } catch (error) {
-    // analytic failed, just ignore it
-  }
+  // try {
+  //   analyticsService.attachAnalytic(req, 'workspace', workspace.id);
+  // } catch (error) {
+  //   // analytic failed, just ignore it
+  // }
 
   return res.send({
     workspace: {
@@ -96,11 +96,11 @@ router.post('/private/:code', async (req, res) => {
     return res.status(401).send('incorrect password for this workspace');
   }
 
-  try {
-    analyticsService.attachAnalytic(req, 'workspace', workspace.id);
-  } catch (error) {
-    // analytic failed, just ignore it
-  }
+  // try {
+  //   analyticsService.attachAnalytic(req, 'workspace', workspace.id);
+  // } catch (error) {
+  //   // analytic failed, just ignore it
+  // }
 
   return res.send({
     workspace: {

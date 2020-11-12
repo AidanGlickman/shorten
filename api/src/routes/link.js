@@ -2,7 +2,7 @@ import { Router } from 'express';
 import middlewares from '../middlewares';
 import workspaceService from '../services/workspaceService';
 import linkService from '../services/linkService';
-import analyticsService from '../services/analyticsService';
+// import analyticsService from '../services/analyticsService';
 import validUrl from '../helpers/validUrl';
 
 const router = Router({ mergeParams: true });
@@ -47,11 +47,11 @@ router.get('/:code', async (req, res) => {
       req.params.workspaceCode,
       req.params.code,
     );
-    try {
-      analyticsService.attachAnalytic(req, 'link', result.id);
-    } catch (error) {
-      // analytic failed, just ignore it
-    }
+    // try {
+    //   analyticsService.attachAnalytic(req, 'link', result.id);
+    // } catch (error) {
+    //   // analytic failed, just ignore it
+    // }
   } catch (error) {
     return res.status(400).send(error);
   }
